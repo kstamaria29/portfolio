@@ -11,10 +11,22 @@ function clampPercent(value: number) {
   return Math.max(0, Math.min(100, value));
 }
 
-function SkillBar({ label, level }: { label: string; level: number }) {
+function SkillBar({
+  label,
+  level,
+  barColorClassName,
+}: {
+  label: string;
+  level: number;
+  barColorClassName: string;
+}) {
   const shouldReduceMotion = useReducedMotion();
   const percent = clampPercent(level);
   const scaleX = percent / 100;
+  const fillClassName = cn(
+    "h-full w-full origin-left rounded-full bg-gradient-to-r",
+    barColorClassName,
+  );
 
   return (
     <div className="space-y-2">
@@ -36,14 +48,17 @@ function SkillBar({ label, level }: { label: string; level: number }) {
           "dark:bg-white/15",
         )}
       >
-        <motion.div
-          className="h-full w-full origin-left rounded-full bg-gradient-to-r from-orange-500 to-amber-400"
-          initial={shouldReduceMotion ? false : { scaleX: 0 }}
-          whileInView={shouldReduceMotion ? undefined : { scaleX }}
-          viewport={{ once: true, amount: 0.6 }}
-          animate={shouldReduceMotion ? { scaleX } : undefined}
-          transition={shouldReduceMotion ? undefined : { duration: 0.7, ease: "easeOut" }}
-        />
+        {shouldReduceMotion ? (
+          <div className={fillClassName} style={{ transform: `scaleX(${scaleX})` }} />
+        ) : (
+          <motion.div
+            className={fillClassName}
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ duration: 0.7 }}
+          />
+        )}
       </div>
     </div>
   );
@@ -76,12 +91,32 @@ export function Skills() {
               "dark:border-white/10 dark:bg-zinc-950/40",
             )}
           >
-            <div className="grid gap-8 lg:grid-cols-2">
-              {skillsSection.columns.map((column, columnIndex) => (
-                <div key={columnIndex} className="space-y-6">
-                  {column.map((skill) => (
-                    <SkillBar key={skill.id} label={skill.label} level={skill.level} />
-                  ))}
+            <div className="grid gap-10 lg:grid-cols-3">
+              {skillsSection.categories.map((category) => (
+                <div key={category.id} className="space-y-6">
+                  <div className="flex items-center justify-between gap-4">
+                    <h3 className="text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+                      {category.title}
+                    </h3>
+                    <span
+                      className={cn(
+                        "h-1.5 w-10 rounded-full bg-gradient-to-r",
+                        category.barColorClassName,
+                      )}
+                      aria-hidden="true"
+                    />
+                  </div>
+
+                  <div className="space-y-6">
+                    {category.skills.map((skill) => (
+                      <SkillBar
+                        key={skill.id}
+                        label={skill.label}
+                        level={skill.level}
+                        barColorClassName={category.barColorClassName}
+                      />
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>
