@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
+import { ExternalLink } from "lucide-react";
 
 import { projects, projectsSection } from "../../content/projects";
 import { sectionIds } from "../../content/site";
@@ -138,12 +139,13 @@ export function Projects() {
                       key={link.label}
                       href={link.href}
                       className={cn(
-                        "rounded-xl border border-zinc-200/70 bg-white px-3 py-2 text-sm font-semibold text-zinc-800 no-underline",
+                        "inline-flex items-center gap-2 rounded-xl border border-zinc-200/70 bg-white px-3 py-2 text-sm font-semibold text-zinc-800 no-underline",
                         "hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-zinc-100 dark:hover:bg-white/10",
                       )}
                       target={link.href.startsWith("http") ? "_blank" : undefined}
                       rel={link.href.startsWith("http") ? "noreferrer" : undefined}
                     >
+                      <ExternalLink className="h-4 w-4" aria-hidden="true" />
                       {link.label}
                     </a>
                   ))}
