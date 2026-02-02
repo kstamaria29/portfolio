@@ -29,15 +29,18 @@ export function Contact() {
       {...motionProps}
     >
       <Container>
-        <div className="grid gap-10 lg:grid-cols-2">
-          <div>
-            <h2 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-              {contact.heading}
-            </h2>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
-              {contact.description}
-            </p>
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+            {contact.heading}
+          </h2>
+          <div className="mx-auto mt-6 h-px w-44 bg-zinc-200/70 dark:bg-white/10" />
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+            {contact.description}
+          </p>
+        </div>
 
+        <div className="mt-12 grid gap-10 lg:grid-cols-2">
+          <div>
             <div className="mt-6 space-y-2 text-sm">
               <p className="text-zinc-700 dark:text-zinc-200">
                 Email:{" "}
@@ -146,7 +149,11 @@ export function Contact() {
                   </label>
 
                   <div className="flex flex-wrap items-center gap-3">
-                    <Button type="submit" variant="primary" disabled={status === "submitting"}>
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      disabled={status === "submitting"}
+                    >
                       {status === "submitting" ? "Sending..." : "Send message"}
                     </Button>
                     {status === "success" ? (
@@ -180,4 +187,3 @@ export function Contact() {
     </motion.section>
   );
 }
-

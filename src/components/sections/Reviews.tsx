@@ -17,16 +17,17 @@ export function Reviews() {
       {...motionProps}
     >
       <Container>
-        <div>
-          <h2 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
             {reviewsSection.heading}
           </h2>
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+          <div className="mx-auto mt-6 h-px w-44 bg-zinc-200/70 dark:bg-white/10" />
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
             {reviewsSection.description}
           </p>
         </div>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2">
+        <div className="mt-12 grid gap-4 sm:grid-cols-2">
           {reviews.map((review) => (
             <Card key={review.id} className="flex h-full flex-col">
               <div className="space-y-3 text-sm leading-relaxed text-zinc-700 dark:text-zinc-200">

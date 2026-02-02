@@ -30,8 +30,8 @@ export function Hero() {
             <h1 className="mt-4 max-w-3xl text-balance text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-6xl">
               {profile.tagline}
             </h1>
-            <h1 className="mt-4 max-w-3xl text-balance text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-6xl leading-8">
-              <span className="text-emerald-500">Kenneth</span> Sta Maria
+            <h1 className="mt-4 max-w-3xl text-balance text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-5xl leading-8">
+              <span className="sm:text-6xl text-emerald-500">Kenneth</span> Sta Maria
             </h1>
 
             <p className="mt-5 max-w-2xl text-pretty text-base leading-relaxed text-zinc-600 dark:text-zinc-300">

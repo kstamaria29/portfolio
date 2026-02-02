@@ -29,18 +29,17 @@ export function Projects() {
       {...sectionMotionProps}
     >
       <Container>
-        <div className="flex items-end justify-between gap-6">
-          <div>
-            <h2 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-              {projectsSection.heading}
-            </h2>
-            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
-              {projectsSection.description}
-            </p>
-          </div>
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+            {projectsSection.heading}
+          </h2>
+          <div className="mx-auto mt-6 h-px w-44 bg-zinc-200/70 dark:bg-white/10" />
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+            {projectsSection.description}
+          </p>
         </div>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
             <motion.button
               key={project.id}
