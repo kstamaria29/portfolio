@@ -26,7 +26,7 @@ export function Reviews() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2">
           {reviews.map((review) => (
             <Card key={review.id} className="flex h-full flex-col">
               <div className="space-y-3 text-sm leading-relaxed text-zinc-700 dark:text-zinc-200">
