@@ -5,6 +5,7 @@ import { Contact } from "./components/sections/Contact";
 import { Hero } from "./components/sections/Hero";
 import { Projects } from "./components/sections/Projects";
 import { Reviews } from "./components/sections/Reviews";
+import { Skills } from "./components/sections/Skills";
 
 export function App() {
   return (
@@ -13,6 +14,7 @@ export function App() {
       <main id="main">
         <Hero />
         <About />
+        <Skills />
         <Projects />
         <Reviews />
         <Contact />
@@ -21,4 +23,3 @@ export function App() {
     </div>
   );
 }
-
