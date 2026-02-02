@@ -12,21 +12,21 @@ export const contact = {
   heading: "Contact",
   description:
     "Have a role, project, or collaboration in mind? Send a message and I'll get back to you.",
-  email: "kenneth@example.com",
+  email: "kstamaria29@gmail.com",
   infoCard: {
     heading: "Contact Information",
     items: [
       {
         id: "email",
         label: "Email",
-        value: "kenneth@example.com",
-        href: "mailto:kenneth@example.com",
+        value: "kstamaria29@gmail.com",
+        href: "mailto:kstamaria29@gmail.com",
         icon: "mail",
       },
       {
         id: "linkedin",
         label: "LinkedIn",
-        value: "linkedin.com/in/your-handle",
+        value: "linkedin.com/in/kennethsm",
         href: "https://www.linkedin.com/",
         icon: "linkedin",
       },
@@ -49,7 +49,6 @@ export const contact = {
     buttonLabel: "Send Message",
   },
   formspree: {
-    formId: "",
+    formId: "xaqbdope",
   },
 } as const;
-

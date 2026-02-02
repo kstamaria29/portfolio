@@ -154,44 +154,67 @@ export function Contact() {
                   }
                 }}
               >
-                <div className="grid gap-4">
+                <div className="grid gap-5">
+                  <label className="sr-only" htmlFor="contact-name">
+                    Your name
+                  </label>
                   <input
+                    id="contact-name"
                     name="name"
                     required
                     className={cn(
-                      "h-12 rounded-xl border border-zinc-200/70 bg-white px-4 text-sm text-zinc-900",
-                      "placeholder:text-zinc-400 dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-50 dark:placeholder:text-zinc-500",
+                      "h-12 rounded-xl border border-zinc-200/70 bg-white px-4 text-sm text-zinc-900 shadow-sm",
+                      "placeholder:text-sky-700/60 dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-50 dark:placeholder:text-sky-300/50",
+                      "focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-0 dark:focus-visible:ring-emerald-300",
                     )}
                     placeholder="Your Name"
                     autoComplete="name"
                   />
+
+                  <label className="sr-only" htmlFor="contact-email">
+                    Your email
+                  </label>
                   <input
+                    id="contact-email"
                     name="email"
                     type="email"
                     required
                     className={cn(
-                      "h-12 rounded-xl border border-zinc-200/70 bg-white px-4 text-sm text-zinc-900",
-                      "placeholder:text-zinc-400 dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-50 dark:placeholder:text-zinc-500",
+                      "h-12 rounded-xl border border-zinc-200/70 bg-white px-4 text-sm text-zinc-900 shadow-sm",
+                      "placeholder:text-sky-700/60 dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-50 dark:placeholder:text-sky-300/50",
+                      "focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-0 dark:focus-visible:ring-emerald-300",
                     )}
                     placeholder="Your Email"
                     autoComplete="email"
                   />
+
+                  <label className="sr-only" htmlFor="contact-subject">
+                    Subject
+                  </label>
                   <input
+                    id="contact-subject"
                     name="subject"
                     className={cn(
-                      "h-12 rounded-xl border border-zinc-200/70 bg-white px-4 text-sm text-zinc-900",
-                      "placeholder:text-zinc-400 dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-50 dark:placeholder:text-zinc-500",
+                      "h-12 rounded-xl border border-zinc-200/70 bg-white px-4 text-sm text-zinc-900 shadow-sm",
+                      "placeholder:text-sky-700/60 dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-50 dark:placeholder:text-sky-300/50",
+                      "focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-0 dark:focus-visible:ring-emerald-300",
                     )}
                     placeholder="Subject"
                     autoComplete="off"
                   />
+
+                  <label className="sr-only" htmlFor="contact-message">
+                    Your message
+                  </label>
                   <textarea
+                    id="contact-message"
                     name="message"
                     required
                     rows={6}
                     className={cn(
-                      "resize-none rounded-xl border border-zinc-200/70 bg-white px-4 py-3 text-sm text-zinc-900",
-                      "placeholder:text-zinc-400 dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-50 dark:placeholder:text-zinc-500",
+                      "resize-none rounded-xl border border-zinc-200/70 bg-white px-4 py-3 text-sm text-zinc-900 shadow-sm",
+                      "placeholder:text-sky-700/60 dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-50 dark:placeholder:text-sky-300/50",
+                      "focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-0 dark:focus-visible:ring-emerald-300",
                     )}
                     placeholder="Your Message"
                   />
@@ -200,7 +223,7 @@ export function Contact() {
                     type="submit"
                     variant="primary"
                     disabled={status === "submitting"}
-                    className="h-12 w-full justify-center"
+                    className="mt-1 h-12 w-full justify-center"
                   >
                     <Send className="h-4 w-4" aria-hidden="true" />
                     {status === "submitting" ? "Sending..." : contact.formCard.buttonLabel}
