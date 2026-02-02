@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
+import { Code2, Server, Wrench } from "lucide-react";
 
 import { skillsSection } from "../../content/skills";
 import { sectionIds } from "../../content/site";
@@ -9,6 +10,12 @@ import { Container } from "../layout/Container";
 function clampPercent(value: number) {
   if (Number.isNaN(value)) return 0;
   return Math.max(0, Math.min(100, value));
+}
+
+function getCategoryIcon(categoryId: string) {
+  if (categoryId === "frontend") return Code2;
+  if (categoryId === "backend") return Server;
+  return Wrench;
 }
 
 function SkillBar({
@@ -76,11 +83,12 @@ export function Skills() {
     >
       <Container>
         <div className="flex flex-col gap-4">
-          <div>
-            <h2 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
               {skillsSection.heading}
             </h2>
-            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+            <div className="mx-auto mt-6 h-px w-44 bg-zinc-200/70 dark:bg-white/10" />
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
               {skillsSection.description}
             </p>
           </div>
@@ -92,33 +100,42 @@ export function Skills() {
             )}
           >
             <div className="grid gap-10 lg:grid-cols-3">
-              {skillsSection.categories.map((category) => (
-                <div key={category.id} className="space-y-6">
-                  <div className="flex items-center justify-between gap-4">
-                    <h3 className="text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-                      {category.title}
-                    </h3>
-                    <span
-                      className={cn(
-                        "h-1.5 w-10 rounded-full bg-gradient-to-r",
-                        category.barColorClassName,
-                      )}
-                      aria-hidden="true"
-                    />
-                  </div>
-
-                  <div className="space-y-6">
-                    {category.skills.map((skill) => (
-                      <SkillBar
-                        key={skill.id}
-                        label={skill.label}
-                        level={skill.level}
-                        barColorClassName={category.barColorClassName}
+              {skillsSection.categories.map((category) => {
+                const Icon = getCategoryIcon(category.id);
+                return (
+                  <div key={category.id} className="space-y-6">
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-2">
+                        <Icon
+                          className="h-4 w-4 text-zinc-600 dark:text-zinc-300"
+                          aria-hidden="true"
+                        />
+                        <h3 className="text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+                          {category.title}
+                        </h3>
+                      </div>
+                      <span
+                        className={cn(
+                          "h-1.5 w-10 rounded-full bg-gradient-to-r",
+                          category.barColorClassName,
+                        )}
+                        aria-hidden="true"
                       />
-                    ))}
+                    </div>
+
+                    <div className="space-y-6">
+                      {category.skills.map((skill) => (
+                        <SkillBar
+                          key={skill.id}
+                          label={skill.label}
+                          level={skill.level}
+                          barColorClassName={category.barColorClassName}
+                        />
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

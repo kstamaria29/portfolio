@@ -17,12 +17,16 @@ export function About() {
       {...motionProps}
     >
       <Container>
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+            {profile.aboutSection.heading}
+          </h2>
+          <div className="mx-auto mt-6 h-px w-44 bg-zinc-200/70 dark:bg-white/10" />
+        </div>
+
+        <div className="mt-12 flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-2xl">
-            <h2 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-              {profile.aboutSection.heading}
-            </h2>
-            <div className="mt-4 space-y-4 text-base leading-relaxed text-zinc-600 dark:text-zinc-300">
+            <div className="space-y-4 text-base leading-relaxed text-zinc-600 dark:text-zinc-300">
               {profile.bio.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}

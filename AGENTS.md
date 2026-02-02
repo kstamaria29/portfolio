@@ -172,7 +172,7 @@ Rules:
 
 - When you need _any_ library/framework documentation or APIs, **always consult Context7**.
 - In your own prompts and reasoning, include: **“use context7”** to pull the latest docs.
-- Always use Context7 when working with Next.js/React/Tailwind/Motion.
+- Always use Context7 when working with Next.js/React/Tailwind/Motion/Lucide.
 
 ### OpenAI developer documentation MCP server
 

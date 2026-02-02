@@ -1,10 +1,19 @@
 import { motion, useReducedMotion } from "motion/react";
+import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
 
 import { profile } from "../../content/profile";
 import { sectionIds } from "../../content/site";
 import { getSectionMotionProps } from "../../lib/motion";
 import { Container } from "../layout/Container";
 import { Button } from "../ui/Button";
+
+function getSocialIcon(label: string, href: string) {
+  const normalized = label.toLowerCase();
+  if (normalized.includes("github")) return Github;
+  if (normalized.includes("linkedin")) return Linkedin;
+  if (href.startsWith("mailto:") || normalized.includes("email")) return Mail;
+  return null;
+}
 
 export function Hero() {
   const shouldReduceMotion = useReducedMotion();
@@ -30,8 +39,8 @@ export function Hero() {
             <h1 className="mt-4 max-w-3xl text-balance text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-6xl">
               {profile.tagline}
             </h1>
-            <h1 className="mt-4 max-w-3xl text-balance text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-6xl leading-8">
-              <span className="text-emerald-500">Kenneth</span> Sta Maria
+            <h1 className="mt-4 max-w-3xl text-balance text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-5xl leading-8">
+              <span className="sm:text-6xl text-emerald-500">Kenneth</span> Sta Maria
             </h1>
 
             <p className="mt-5 max-w-2xl text-pretty text-base leading-relaxed text-zinc-600 dark:text-zinc-300">
@@ -41,24 +50,30 @@ export function Hero() {
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Button href={profile.ctas.primary.href} variant="primary">
                 {profile.ctas.primary.label}
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Button>
               <Button href={profile.ctas.secondary.href} variant="secondary">
+                <Mail className="h-4 w-4" aria-hidden="true" />
                 {profile.ctas.secondary.label}
               </Button>
             </div>
 
             <div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-2">
-              {profile.socials.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="text-sm font-medium text-zinc-700 no-underline hover:text-zinc-900 hover:underline dark:text-zinc-300 dark:hover:text-zinc-50"
-                  target={link.href.startsWith("http") ? "_blank" : undefined}
-                  rel={link.href.startsWith("http") ? "noreferrer" : undefined}
-                >
-                  {link.label}
-                </a>
-              ))}
+              {profile.socials.map((link) => {
+                const Icon = getSocialIcon(link.label, link.href);
+                return (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="inline-flex items-center gap-2 text-sm font-medium text-zinc-700 no-underline hover:text-zinc-900 hover:underline dark:text-zinc-300 dark:hover:text-zinc-50"
+                    target={link.href.startsWith("http") ? "_blank" : undefined}
+                    rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+                  >
+                    {Icon ? <Icon className="h-4 w-4" aria-hidden="true" /> : null}
+                    {link.label}
+                  </a>
+                );
+              })}
             </div>
           </div>
 

@@ -4,6 +4,7 @@ import { useTheme } from "../../hooks/useTheme";
 import { cn } from "../../lib/cn";
 import { Button } from "../ui/Button";
 import { Container } from "./Container";
+import { Moon, Sun } from "lucide-react";
 
 export function Navbar() {
   const { theme, toggleTheme } = useTheme();
@@ -60,11 +61,20 @@ export function Navbar() {
             aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
             aria-pressed={theme === "dark"}
           >
-            {theme === "dark" ? "Light" : "Dark"}
+            {theme === "dark" ? (
+              <>
+                <Sun className="h-4 w-4" aria-hidden="true" />
+                <span className="hidden sm:inline">Light</span>
+              </>
+            ) : (
+              <>
+                <Moon className="h-4 w-4" aria-hidden="true" />
+                <span className="hidden sm:inline">Dark</span>
+              </>
+            )}
           </Button>
         </div>
       </Container>
     </header>
   );
 }
-

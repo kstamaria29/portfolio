@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
+import { ExternalLink } from "lucide-react";
 
 import { projects, projectsSection } from "../../content/projects";
 import { sectionIds } from "../../content/site";
@@ -29,18 +30,17 @@ export function Projects() {
       {...sectionMotionProps}
     >
       <Container>
-        <div className="flex items-end justify-between gap-6">
-          <div>
-            <h2 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-              {projectsSection.heading}
-            </h2>
-            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
-              {projectsSection.description}
-            </p>
-          </div>
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+            {projectsSection.heading}
+          </h2>
+          <div className="mx-auto mt-6 h-px w-44 bg-zinc-200/70 dark:bg-white/10" />
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+            {projectsSection.description}
+          </p>
         </div>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
             <motion.button
               key={project.id}
@@ -139,12 +139,13 @@ export function Projects() {
                       key={link.label}
                       href={link.href}
                       className={cn(
-                        "rounded-xl border border-zinc-200/70 bg-white px-3 py-2 text-sm font-semibold text-zinc-800 no-underline",
+                        "inline-flex items-center gap-2 rounded-xl border border-zinc-200/70 bg-white px-3 py-2 text-sm font-semibold text-zinc-800 no-underline",
                         "hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-zinc-100 dark:hover:bg-white/10",
                       )}
                       target={link.href.startsWith("http") ? "_blank" : undefined}
                       rel={link.href.startsWith("http") ? "noreferrer" : undefined}
                     >
+                      <ExternalLink className="h-4 w-4" aria-hidden="true" />
                       {link.label}
                     </a>
                   ))}
