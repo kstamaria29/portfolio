@@ -9,7 +9,18 @@
 @layer base {
   html {
     color-scheme: light dark;
+}
+
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
 
   html {
     scroll-behavior: smooth;
