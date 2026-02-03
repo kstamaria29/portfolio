@@ -1,8 +1,8 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ExternalLink } from "lucide-react";
 
-import { projects, projectsSection } from "../../content/projects";
+import { projects, projectsSection, type ProjectCategory } from "../../content/projects";
 import { sectionIds } from "../../content/site";
 import { cn } from "../../lib/cn";
 import { getHoverTapMotion, getSectionMotionProps } from "../../lib/motion";
@@ -15,12 +15,28 @@ export function Projects() {
   const sectionMotionProps = getSectionMotionProps(shouldReduceMotion);
   const hoverTap = getHoverTapMotion(shouldReduceMotion);
 
+  const categories = projectsSection.categories;
+  const defaultCategory: ProjectCategory =
+    categories.find((c) => c.id === "production")?.id ?? categories[0].id;
+
+  const [activeCategory, setActiveCategory] = useState<ProjectCategory>(defaultCategory);
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  useEffect(() => {
+    setActiveProjectId(null);
+    triggerRef.current = null;
+  }, [activeCategory]);
 
   const activeProject = useMemo(
     () => projects.find((p) => p.id === activeProjectId) ?? null,
     [activeProjectId],
+  );
+
+  const visibleProjects = useMemo(
+    () => projects.filter((p) => p.category === activeCategory),
+    [activeCategory],
   );
 
   return (
@@ -40,8 +56,92 @@ export function Projects() {
           </p>
         </div>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => (
+        <div className="mt-10 flex justify-center">
+          <div
+            role="tablist"
+            aria-label="Project categories"
+            className={cn(
+              "inline-flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-zinc-200/70 bg-white p-2 shadow-sm",
+              "dark:border-white/10 dark:bg-white/5",
+            )}
+            onKeyDown={(e) => {
+              if (e.key !== "ArrowLeft" && e.key !== "ArrowRight" && e.key !== "Home" && e.key !== "End")
+                return;
+
+              e.preventDefault();
+              const currentIndex = categories.findIndex((c) => c.id === activeCategory);
+              if (currentIndex === -1) return;
+
+              const lastIndex = categories.length - 1;
+              const nextIndex =
+                e.key === "Home"
+                  ? 0
+                  : e.key === "End"
+                    ? lastIndex
+                    : e.key === "ArrowRight"
+                      ? (currentIndex + 1) % categories.length
+                      : (currentIndex - 1 + categories.length) % categories.length;
+
+              const nextCategory = categories[nextIndex];
+              setActiveCategory(nextCategory.id);
+              tabRefs.current[nextIndex]?.focus();
+            }}
+          >
+            {categories.map((category, index) => {
+              const selected = category.id === activeCategory;
+              const count = projects.filter((p) => p.category === category.id).length;
+
+              return (
+                <button
+                  key={category.id}
+                  ref={(el) => {
+                    tabRefs.current[index] = el;
+                  }}
+                  type="button"
+                  role="tab"
+                  id={`projects-tab-${category.id}`}
+                  aria-controls={`projects-panel-${category.id}`}
+                  aria-selected={selected}
+                  tabIndex={selected ? 0 : -1}
+                  onClick={() => setActiveCategory(category.id)}
+                  className={cn(
+                    "inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition-colors",
+                    selected
+                      ? "bg-emerald-500 text-zinc-950 dark:bg-emerald-400"
+                      : "text-zinc-700 hover:bg-zinc-100/70 dark:text-zinc-200 dark:hover:bg-white/10",
+                  )}
+                >
+                  <span>{category.label}</span>
+                  <span
+                    className={cn(
+                      "rounded-full px-2 py-0.5 text-xs tabular-nums",
+                      selected
+                        ? "bg-zinc-950/10 text-zinc-950 dark:bg-zinc-950/15"
+                        : "bg-zinc-200/70 text-zinc-700 dark:bg-white/10 dark:text-zinc-200",
+                    )}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div
+          role="tabpanel"
+          id={`projects-panel-${activeCategory}`}
+          aria-labelledby={`projects-tab-${activeCategory}`}
+          className="mt-12"
+        >
+          {visibleProjects.length === 0 ? (
+            <p className="text-center text-sm text-zinc-600 dark:text-zinc-300">
+              No projects in this category yet.
+            </p>
+          ) : null}
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {visibleProjects.map((project) => (
             <motion.button
               key={project.id}
               type="button"
@@ -55,6 +155,18 @@ export function Projects() {
               }}
               {...hoverTap}
             >
+              {project.images[0] ? (
+                <div className="-mx-6 -mt-6 mb-5 overflow-hidden rounded-t-2xl bg-zinc-50 dark:bg-white/5">
+                  <img
+                    src={project.images[0].src}
+                    alt={project.images[0].alt}
+                    className="aspect-video w-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="h-px bg-zinc-200/70 dark:bg-white/10" aria-hidden="true" />
+                </div>
+              ) : null}
               <div className="flex items-start justify-between gap-4">
                 <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
                   {project.title}
@@ -75,7 +187,8 @@ export function Projects() {
                 View details
               </div>
             </motion.button>
-          ))}
+            ))}
+          </div>
         </div>
       </Container>
 
