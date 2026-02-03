@@ -96,7 +96,7 @@ export function Modal({ open, title, onClose, children }: ModalProps) {
 
   return createPortal(
     <motion.div
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-zinc-950/40 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[60] flex cursor-pointer items-center justify-center bg-zinc-950/40 p-4 backdrop-blur-sm"
       onMouseDown={onClose}
       aria-hidden={false}
       {...motionProps}
@@ -107,7 +107,7 @@ export function Modal({ open, title, onClose, children }: ModalProps) {
         aria-modal="true"
         aria-labelledby={titleId}
         className={cn(
-          "h-[min(90vh,calc(100vh-2rem))] w-full max-w-3xl overflow-hidden rounded-2xl border border-zinc-200/70 bg-white shadow-xl",
+          "h-[min(90vh,calc(100vh-2rem))] w-full max-w-3xl cursor-default overflow-hidden rounded-2xl border border-zinc-200/70 bg-white shadow-xl",
           "dark:border-white/10 dark:bg-zinc-950",
         )}
         onMouseDown={(e) => e.stopPropagation()}

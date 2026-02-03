@@ -139,7 +139,7 @@ export function ImageLightbox({
 
   return createPortal(
     <motion.div
-      className="fixed inset-0 z-[70] bg-zinc-950/80 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[70] cursor-pointer bg-zinc-950/80 p-4 backdrop-blur-sm"
       onMouseDown={onClose}
       aria-hidden={false}
       {...motionProps}
@@ -149,7 +149,7 @@ export function ImageLightbox({
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
-        className="relative mx-auto flex h-[calc(100vh-2rem)] max-w-6xl flex-col"
+        className="relative mx-auto flex h-[calc(100vh-2rem)] max-w-6xl cursor-default flex-col"
         onMouseDown={(e) => e.stopPropagation()}
       >
         {title ? (

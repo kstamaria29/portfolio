@@ -99,7 +99,7 @@ export const projects: Project[] = [
       "A CMS-driven marketing site for SM Driving School with hero, services, pricing, reviews, FAQs, and contact sections built for fast updates and conversions.",
     fullDescription:
       "A modern React/Vite marketing experience for SM Driving School that pulls live content from a Supabase-backed CMS. The homepage assembles hero messaging, services, pricing, reviews, about, FAQs, and contact into a cohesive conversion funnel, while also featuring video content to build trust and credibility. Content is retrieved via dedicated CMS queries (hero, services, pricing, FAQs, reviews, and more), enabling non-developers to update the site without code changes and ensuring the marketing copy stays current and consistent across sections.",
-    techStack: ["React.js", "Typescript", "Tailwind"],
+    techStack: ["React.js", "Typescript", "Tailwind", "Supabase"],
     images: [
       { src: "/projects/smdriving-marketing1.jpg", alt: "SM Driving Marketing 1" },
       { src: "/projects/smdriving-marketing2.jpg", alt: "SM Driving Marketing 2" },

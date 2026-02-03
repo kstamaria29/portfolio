@@ -189,19 +189,19 @@ export function Projects() {
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {visibleProjects.map((project) => (
-              <motion.button
-                key={project.id}
-                type="button"
-                className={cn(
-                  "group rounded-2xl border border-zinc-200/70 bg-white p-6 text-left shadow-sm",
-                  "hover:border-zinc-200 dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20",
-                )}
-                onClick={(e) => {
-                  triggerRef.current = e.currentTarget;
-                  setActiveProjectId(project.id);
-                }}
-                {...hoverTap}
-              >
+            <motion.button
+              key={project.id}
+              type="button"
+              className={cn(
+                "group rounded-2xl border border-zinc-200/70 bg-white p-6 text-left shadow-sm transition",
+                "hover:border-emerald-200 hover:shadow-md dark:border-white/10 dark:bg-white/5 dark:hover:border-emerald-300/30",
+              )}
+              onClick={(e) => {
+                triggerRef.current = e.currentTarget;
+                setActiveProjectId(project.id);
+              }}
+              {...hoverTap}
+            >
                 {project.images[0] ? (
                   <div className="-mx-6 -mt-6 mb-5 overflow-hidden rounded-t-2xl bg-zinc-50 dark:bg-white/5">
                     <img
@@ -216,15 +216,15 @@ export function Projects() {
                       aria-hidden="true"
                     />
                   </div>
-                ) : null}
-                <div className="flex items-start justify-between gap-4">
-                  <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
-                    {project.title}
-                  </h3>
-                  <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                    {project.date ?? ""}
-                  </span>
-                </div>
+              ) : null}
+              <div className="flex items-start justify-between gap-4">
+                <h3 className="text-base font-semibold text-zinc-900 transition-colors group-hover:text-emerald-700 dark:text-zinc-50 dark:group-hover:text-emerald-300">
+                  {project.title}
+                </h3>
+                <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                  {project.date ?? ""}
+                </span>
+              </div>
                 <p className="mt-3 sm:h-33 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
                   {project.shortDescription}
                 </p>
