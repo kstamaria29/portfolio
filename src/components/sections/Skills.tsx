@@ -50,10 +50,7 @@ function SkillBar({
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={percent}
-        className={cn(
-          "h-2 w-full rounded-full bg-zinc-200",
-          "dark:bg-white/15",
-        )}
+        className={cn("h-2 w-full rounded-full bg-zinc-200", "dark:bg-white/15")}
       >
         {shouldReduceMotion ? (
           <div className={fillClassName} style={{ transform: `scaleX(${scaleX})` }} />
@@ -116,7 +113,7 @@ export function Skills() {
                       </div>
                       <span
                         className={cn(
-                          "h-1.5 w-10 rounded-full bg-gradient-to-r",
+                          "h-1.5 w-10 rounded-full bg-linear-to-r",
                           category.barColorClassName,
                         )}
                         aria-hidden="true"
@@ -143,4 +140,3 @@ export function Skills() {
     </motion.section>
   );
 }
-

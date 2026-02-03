@@ -13,7 +13,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-zinc-200/60 bg-white/75 backdrop-blur dark:border-white/10 dark:bg-zinc-950/60">
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-[60] rounded-md bg-white px-3 py-2 text-sm text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-60 rounded-md bg-white px-3 py-2 text-sm text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50"
       >
         Skip to content
       </a>
@@ -58,7 +58,9 @@ export function Navbar() {
             type="button"
             variant="ghost"
             onClick={toggleTheme}
-            aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+            aria-label={
+              theme === "dark" ? "Switch to light theme" : "Switch to dark theme"
+            }
             aria-pressed={theme === "dark"}
           >
             {theme === "dark" ? (
