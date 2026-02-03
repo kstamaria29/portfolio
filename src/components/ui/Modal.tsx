@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useId, useMemo, useRef } from "react";
 import { createPortal } from "react-dom";
 import { motion, useReducedMotion } from "motion/react";
+import { X } from "lucide-react";
 
 import { cn } from "../../lib/cn";
 
@@ -10,13 +11,13 @@ const FOCUSABLE_SELECTOR =
 type ModalProps = {
   open: boolean;
   title: string;
-  description?: string;
   onClose: () => void;
   children: React.ReactNode;
 };
 
-export function Modal({ open, title, description, onClose, children }: ModalProps) {
+export function Modal({ open, title, onClose, children }: ModalProps) {
   const shouldReduceMotion = useReducedMotion();
+  const titleId = useId();
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const previousActiveElementRef = useRef<HTMLElement | null>(null);
@@ -104,45 +105,32 @@ export function Modal({ open, title, description, onClose, children }: ModalProp
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="dialog-title"
-        aria-describedby={description ? "dialog-description" : undefined}
+        aria-labelledby={titleId}
         className={cn(
-          "w-full max-w-3xl overflow-hidden rounded-2xl border border-zinc-200/70 bg-white shadow-xl",
+          "h-[min(90vh,calc(100vh-2rem))] w-full max-w-3xl overflow-hidden rounded-2xl border border-zinc-200/70 bg-white shadow-xl",
           "dark:border-white/10 dark:bg-zinc-950",
         )}
         onMouseDown={(e) => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between gap-4 border-b border-zinc-200/60 px-5 py-4 dark:border-white/10">
-          <div className="min-w-0">
-            <h2
-              id="dialog-title"
-              className="text-base font-semibold text-zinc-900 dark:text-zinc-50"
-            >
+        <div className="h-full overflow-y-auto px-5 py-5">
+          <div className="flex items-start justify-between gap-4">
+            <h2 id={titleId} className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
               {title}
             </h2>
-            {description ? (
-              <p
-                id="dialog-description"
-                className="mt-1 text-sm text-zinc-600 dark:text-zinc-400"
-              >
-                {description}
-              </p>
-            ) : null}
+            <button
+              ref={closeButtonRef}
+              type="button"
+              onClick={onClose}
+              className={cn(
+                "shrink-0 rounded-xl p-2 text-zinc-700",
+                "hover:bg-zinc-100/80 dark:text-zinc-200 dark:hover:bg-white/10",
+              )}
+              aria-label="Close dialog"
+            >
+              <X className="h-5 w-5" aria-hidden="true" />
+            </button>
           </div>
-          <button
-            ref={closeButtonRef}
-            type="button"
-            onClick={onClose}
-            className={cn(
-              "shrink-0 rounded-lg px-3 py-2 text-sm font-semibold text-zinc-700",
-              "hover:bg-zinc-100/80 dark:text-zinc-200 dark:hover:bg-white/10",
-            )}
-          >
-            Close
-          </button>
-        </div>
-        <div className="max-h-[calc(100vh-12rem)] overflow-y-auto px-5 py-5">
-          {children}
+          <div className="mt-5">{children}</div>
         </div>
       </div>
     </motion.div>,

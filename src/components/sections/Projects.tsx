@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { ExternalLink } from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 
 import { projects, projectsSection, type ProjectCategory } from "../../content/projects";
 import { sectionIds } from "../../content/site";
@@ -8,6 +8,7 @@ import { cn } from "../../lib/cn";
 import { getHoverTapMotion, getSectionMotionProps } from "../../lib/motion";
 import { Container } from "../layout/Container";
 import { Badge } from "../ui/Badge";
+import { ImageLightbox } from "../ui/ImageLightbox";
 import { Modal } from "../ui/Modal";
 
 export function Projects() {
@@ -24,15 +25,56 @@ export function Projects() {
   const triggerRef = useRef<HTMLElement | null>(null);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const galleryStripRef = useRef<HTMLDivElement | null>(null);
+  const [galleryOverflowing, setGalleryOverflowing] = useState(false);
+  const [galleryCanScrollLeft, setGalleryCanScrollLeft] = useState(false);
+  const [galleryCanScrollRight, setGalleryCanScrollRight] = useState(false);
+
   useEffect(() => {
     setActiveProjectId(null);
     triggerRef.current = null;
+    setLightboxOpen(false);
   }, [activeCategory]);
 
   const activeProject = useMemo(
     () => projects.find((p) => p.id === activeProjectId) ?? null,
     [activeProjectId],
   );
+
+  useEffect(() => {
+    if (!activeProject) setLightboxOpen(false);
+  }, [activeProject]);
+
+  useEffect(() => {
+    const el = galleryStripRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const isOverflowing = el.scrollWidth > el.clientWidth + 2;
+      setGalleryOverflowing(isOverflowing);
+      setGalleryCanScrollLeft(el.scrollLeft > 0);
+      setGalleryCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+    };
+
+    update();
+    el.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+
+    return () => {
+      el.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [activeProjectId, lightboxOpen]);
+
+  function scrollGalleryStrip(direction: "prev" | "next") {
+    const el = galleryStripRef.current;
+    if (!el) return;
+    const delta = Math.max(180, Math.floor(el.clientWidth * 0.8));
+    const left = direction === "prev" ? -delta : delta;
+    el.scrollBy({ left, behavior: shouldReduceMotion ? "auto" : "smooth" });
+  }
 
   const visibleProjects = useMemo(
     () => projects.filter((p) => p.category === activeCategory),
@@ -203,8 +245,8 @@ export function Projects() {
       <Modal
         open={!!activeProject}
         title={activeProject?.title ?? "Project"}
-        description={activeProject?.shortDescription}
         onClose={() => {
+          setLightboxOpen(false);
           setActiveProjectId(null);
           triggerRef.current?.focus();
         }}
@@ -225,16 +267,77 @@ export function Projects() {
                 <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
                   Gallery
                 </h3>
-                <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                  {activeProject.images.map((img) => (
-                    <img
-                      key={img.src}
-                      src={img.src}
-                      alt={img.alt}
-                      className="h-auto w-full rounded-xl border border-zinc-200/70 bg-zinc-50 dark:border-white/10 dark:bg-white/5"
-                      loading="lazy"
-                    />
-                  ))}
+                <div className="relative mt-3">
+                  {galleryOverflowing ? (
+                    <button
+                      type="button"
+                      onClick={() => scrollGalleryStrip("prev")}
+                      disabled={!galleryCanScrollLeft}
+                      className={cn(
+                        "absolute left-0 top-1/2 z-10 -translate-y-1/2 rounded-xl p-2",
+                        "bg-white/70 text-zinc-900 shadow-sm backdrop-blur",
+                        "disabled:opacity-40 dark:bg-zinc-950/60 dark:text-zinc-50",
+                      )}
+                      aria-label="Scroll thumbnails left"
+                    >
+                      <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+                    </button>
+                  ) : null}
+
+                  <div
+                    ref={galleryStripRef}
+                    className={cn(
+                      "no-scrollbar overflow-x-auto pb-1",
+                      galleryOverflowing ? "px-10" : "",
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        "flex min-w-max items-center gap-2",
+                        galleryOverflowing ? "justify-start" : "justify-center",
+                      )}
+                    >
+                      {activeProject.images.map((img, i) => (
+                        <button
+                          key={img.src}
+                          type="button"
+                          onClick={() => {
+                            setLightboxIndex(i);
+                            setLightboxOpen(true);
+                          }}
+                          className={cn(
+                            "overflow-hidden rounded-lg border border-zinc-200/70 bg-zinc-50",
+                            "hover:border-zinc-200 dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20",
+                          )}
+                          aria-label={`Open image ${i + 1} of ${activeProject.images.length}`}
+                        >
+                          <img
+                            src={img.src}
+                            alt={img.alt}
+                            className="h-16 w-24 object-cover"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {galleryOverflowing ? (
+                    <button
+                      type="button"
+                      onClick={() => scrollGalleryStrip("next")}
+                      disabled={!galleryCanScrollRight}
+                      className={cn(
+                        "absolute right-0 top-1/2 z-10 -translate-y-1/2 rounded-xl p-2",
+                        "bg-white/70 text-zinc-900 shadow-sm backdrop-blur",
+                        "disabled:opacity-40 dark:bg-zinc-950/60 dark:text-zinc-50",
+                      )}
+                      aria-label="Scroll thumbnails right"
+                    >
+                      <ChevronRight className="h-5 w-5" aria-hidden="true" />
+                    </button>
+                  ) : null}
                 </div>
               </div>
             ) : null}
@@ -292,6 +395,15 @@ export function Projects() {
           </div>
         ) : null}
       </Modal>
+
+      <ImageLightbox
+        open={lightboxOpen}
+        title={activeProject?.title}
+        images={activeProject?.images ?? []}
+        index={lightboxIndex}
+        onIndexChange={setLightboxIndex}
+        onClose={() => setLightboxOpen(false)}
+      />
     </motion.section>
   );
 }

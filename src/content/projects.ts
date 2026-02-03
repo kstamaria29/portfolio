@@ -20,9 +20,6 @@ export type Project = {
   images: ProjectImage[];
   links: ProjectLink[];
   highlights?: string[];
-  role?: string;
-  challenges?: string[];
-  outcomes?: string[];
   date?: string;
 };
 
@@ -47,17 +44,24 @@ export const projects: Project[] = [
       "Seen People is a community‑driven showcase that blends AI assistance with human curation to spotlight the most compelling creative and developer experiments. The experience highlights weekly “Experiment Spotlight” features and “Creator Spotlight” profiles, giving visitors quick ways to discover standout projects and contributors. It also frames the broader ecosystem with discovery prompts, curated experiment collections, and social/community touchpoints like events, challenges, and blog posts—positioning the project as a hub for inspiration, learning, and community engagement. The result is a polished, content‑rich interface that emphasizes discovery, storytelling, and curated quality across a wide range of AI‑assisted work.",
     techStack: ["Next.js", "Typescript", "Tailwind", "Motion"],
     images: [
-      { src: "/projects/seen-landing1.jpg", alt: "Project placeholder image 1" },
-      { src: "/placeholders/project-2.svg", alt: "Project placeholder image 2" },
+      { src: "/projects/seen-landing1.jpg", alt: "Seen Landing Page 1" },
+      { src: "/projects/seen-landing2.jpg", alt: "Seen Landing Page 2" },
+      { src: "/projects/seen-landing3.jpg", alt: "Seen Landing Page 3" },
+      { src: "/projects/seen-landing4.jpg", alt: "Seen Landing Page 4" },
+      { src: "/projects/seen-landing5.jpg", alt: "Seen Landing Page 5" },
     ],
     links: [
       { label: "Live Demo", href: "https://seen-people.vercel.app/" },
       { label: "GitHub", href: "https://github.com/" },
     ],
-    highlights: ["Reduced-motion aware animations", "Accessible modal dialog"],
-    role: "Design + Development",
-    challenges: ["Balancing motion with readability", "Accessible focus management"],
-    outcomes: ["Clean component structure", "Content-driven sections"],
+    highlights: [
+      "Translated Figma specs into pixel‑matched layout.",
+      "Built reusable UI components for consistency.",
+      "Implemented responsive design across breakpoints.",
+      "Added motion‑driven hero animations for polish.",
+      "Structured sections to mirror UX flow.",
+      "Crafted themed gradients and layered visuals.",
+    ],
     date: "2026",
   },
   {
@@ -67,7 +71,7 @@ export const projects: Project[] = [
     shortDescription:
       "A guided, multi‑step submission flow that lets creators upload assets, define roles/categories/tech, craft AI‑assisted copy, and customize a showcase layout before publishing.",
     fullDescription:
-      "The submission experience is a polished, step‑by‑step studio for building a full experiment showcase. It begins with asset uploads plus creator identity, categories, and technologies, paired with an AI Assistant that can shape tone, structure, and custom instructions for generated text. Next, creators write a title and description, add structured narrative sections (Problem/Solution/Impact or custom), and can generate AI suggestions with revision tools like regenerate/undo/redo before applying content. The third step focuses on presentation: a hero image uploader and a drag‑and‑drop “showcase” organizer let creators order sections and image galleries to tell their story clearly. The flow culminates in a preview‑and‑publish screen that mirrors the final showcase layout, then confirms successful submission with a “Now you’re seen!” state and a call back to browsing experiments. The result is a cohesive submission pipeline that blends guided inputs, AI‑assisted writing, and layout control into a creator‑friendly publishing workflow.",
+      "The submission experience is a polished, step‑by‑step studio for building a full experiment showcase. It begins with asset uploads plus creator identity, categories, and technologies, paired with an AI Assistant that can shape tone, structure, and custom instructions for generated text. Next, creators write a title and description, add structured narrative sections, and can generate AI suggestions with revision tools like regenerate/undo/redo before applying content. The third step focuses on presentation: a hero image uploader and a drag‑and‑drop “showcase” organizer let creators order sections and image galleries to tell their story clearly. The flow culminates in a preview‑and‑publish screen that mirrors the final showcase layout. The result is a cohesive submission pipeline that blends guided inputs, AI‑assisted writing, and layout control into a creator‑friendly publishing workflow.",
     techStack: ["Next.js", "Typescript", "Tailwind", "Jotai", "OpenAi"],
     images: [
       { src: "/projects/seen-submit1.jpg", alt: "Project placeholder image 1" },
@@ -77,10 +81,14 @@ export const projects: Project[] = [
       { label: "Live Demo", href: "https://seen-people.vercel.app/submit" },
       { label: "GitHub", href: "https://github.com/" },
     ],
-    highlights: ["Reduced-motion aware animations", "Accessible modal dialog"],
-    role: "Design + Development",
-    challenges: ["Balancing motion with readability", "Accessible focus management"],
-    outcomes: ["Clean component structure", "Content-driven sections"],
+    highlights: [
+      "Multi‑step submission flow guides creators seamlessly.",
+      "Asset uploads capture hero and gallery media.",
+      "Structured metadata: role, categories, technologies.",
+      "AI assistant accelerates writing and tone control.",
+      "Drag‑and‑drop showcase ordering improves presentation.",
+      "Preview‑and‑publish step mirrors final output.",
+    ],
     date: "2026",
   },
   {
@@ -93,17 +101,25 @@ export const projects: Project[] = [
       "A modern React/Vite marketing experience for SM Driving School that pulls live content from a Supabase-backed CMS. The homepage assembles hero messaging, services, pricing, reviews, about, FAQs, and contact into a cohesive conversion funnel, while also featuring video content to build trust and credibility. Content is retrieved via dedicated CMS queries (hero, services, pricing, FAQs, reviews, and more), enabling non-developers to update the site without code changes and ensuring the marketing copy stays current and consistent across sections.",
     techStack: ["Next.js", "Typescript", "Tailwind", "Jotai", "OpenAi"],
     images: [
-      { src: "/projects/smdriving-marketing1.jpg", alt: "Project placeholder image 1" },
-      { src: "/placeholders/project-2.svg", alt: "Project placeholder image 2" },
+      { src: "/projects/smdriving-marketing1.jpg", alt: "SM Driving Marketing 1" },
+      { src: "/projects/smdriving-marketing2.jpg", alt: "SM Driving Marketing 2" },
+      { src: "/projects/smdriving-marketing3.jpg", alt: "SM Driving Marketing 3" },
+      { src: "/projects/smdriving-marketing4.jpg", alt: "SM Driving Marketing 4" },
+      { src: "/projects/smdriving-marketing5.jpg", alt: "SM Driving Marketing 5" },
+      { src: "/projects/smdriving-marketing6.jpg", alt: "SM Driving Marketing 6" },
+      { src: "/projects/smdriving-marketing7.jpg", alt: "SM Driving Marketing 7" },
     ],
     links: [
       { label: "Live Demo", href: "https://smdriving.co.nz/" },
       { label: "GitHub", href: "https://github.com/" },
     ],
-    highlights: ["Reduced-motion aware animations", "Accessible modal dialog"],
-    role: "Design + Development",
-    challenges: ["Balancing motion with readability", "Accessible focus management"],
-    outcomes: ["Clean component structure", "Content-driven sections"],
+    highlights: [
+      "CMS-driven landing page for rapid content updates.",
+      "Fast Vite build with React + TypeScript.",
+      "Supabase-backed content powering dynamic site sections.",
+      "Clear calls-to-action driving lesson inquiries.",
+      "Mobile responsive.",
+    ],
     date: "2026",
   },
   {
@@ -120,10 +136,13 @@ export const projects: Project[] = [
       { src: "/placeholders/project-2.svg", alt: "Project placeholder image 2" },
     ],
     links: [{ label: "GitHub", href: "https://github.com/" }],
-    highlights: ["Reduced-motion aware animations", "Accessible modal dialog"],
-    role: "Design + Development",
-    challenges: ["Balancing motion with readability", "Accessible focus management"],
-    outcomes: ["Clean component structure", "Content-driven sections"],
+    highlights: [
+      "Operational hub for lessons, students, assessments.",
+      "Weather and schedule insights for instructors.",
+      "Built-in CMS to update marketing content.",
+      "Blog management tools for content publishing.",
+      "Scalable Next.js dashboard with modular pages.",
+    ],
     date: "2026",
   },
   {
