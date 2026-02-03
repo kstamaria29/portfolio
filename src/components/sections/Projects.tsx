@@ -257,9 +257,14 @@ export function Projects() {
               <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
                 Overview
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
-                {activeProject.fullDescription}
-              </p>
+              <div className="mt-2 space-y-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+                {(Array.isArray(activeProject.fullDescription)
+                  ? activeProject.fullDescription
+                  : [activeProject.fullDescription]
+                ).map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
+              </div>
             </div>
 
             {activeProject.images.length > 0 ? (
