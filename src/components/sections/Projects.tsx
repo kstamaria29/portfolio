@@ -65,7 +65,12 @@ export function Projects() {
               "dark:border-white/10 dark:bg-white/5",
             )}
             onKeyDown={(e) => {
-              if (e.key !== "ArrowLeft" && e.key !== "ArrowRight" && e.key !== "Home" && e.key !== "End")
+              if (
+                e.key !== "ArrowLeft" &&
+                e.key !== "ArrowRight" &&
+                e.key !== "Home" &&
+                e.key !== "End"
+              )
                 return;
 
               e.preventDefault();
@@ -142,51 +147,54 @@ export function Projects() {
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {visibleProjects.map((project) => (
-            <motion.button
-              key={project.id}
-              type="button"
-              className={cn(
-                "group rounded-2xl border border-zinc-200/70 bg-white p-6 text-left shadow-sm",
-                "hover:border-zinc-200 dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20",
-              )}
-              onClick={(e) => {
-                triggerRef.current = e.currentTarget;
-                setActiveProjectId(project.id);
-              }}
-              {...hoverTap}
-            >
-              {project.images[0] ? (
-                <div className="-mx-6 -mt-6 mb-5 overflow-hidden rounded-t-2xl bg-zinc-50 dark:bg-white/5">
-                  <img
-                    src={project.images[0].src}
-                    alt={project.images[0].alt}
-                    className="aspect-video w-full object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <div className="h-px bg-zinc-200/70 dark:bg-white/10" aria-hidden="true" />
+              <motion.button
+                key={project.id}
+                type="button"
+                className={cn(
+                  "group rounded-2xl border border-zinc-200/70 bg-white p-6 text-left shadow-sm",
+                  "hover:border-zinc-200 dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20",
+                )}
+                onClick={(e) => {
+                  triggerRef.current = e.currentTarget;
+                  setActiveProjectId(project.id);
+                }}
+                {...hoverTap}
+              >
+                {project.images[0] ? (
+                  <div className="-mx-6 -mt-6 mb-5 overflow-hidden rounded-t-2xl bg-zinc-50 dark:bg-white/5">
+                    <img
+                      src={project.images[0].src}
+                      alt={project.images[0].alt}
+                      className="aspect-video w-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <div
+                      className="h-px bg-zinc-200/70 dark:bg-white/10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                ) : null}
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
+                    {project.title}
+                  </h3>
+                  <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                    {project.date ?? ""}
+                  </span>
                 </div>
-              ) : null}
-              <div className="flex items-start justify-between gap-4">
-                <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
-                  {project.title}
-                </h3>
-                <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                  {project.date ?? ""}
-                </span>
-              </div>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
-                {project.shortDescription}
-              </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {project.tags.slice(0, 4).map((tag) => (
-                  <Badge key={tag}>{tag}</Badge>
-                ))}
-              </div>
-              <div className="mt-5 text-sm font-semibold text-emerald-700 group-hover:underline dark:text-emerald-300">
-                View details
-              </div>
-            </motion.button>
+                <p className="mt-3 sm:h-33 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+                  {project.shortDescription}
+                </p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {project.techStack.slice(0, 6).map((tech) => (
+                    <Badge key={tech}>{tech}</Badge>
+                  ))}
+                </div>
+                <div className="mt-5 text-sm font-semibold text-emerald-700 group-hover:underline dark:text-emerald-300">
+                  View details
+                </div>
+              </motion.button>
             ))}
           </div>
         </div>
