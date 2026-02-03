@@ -7,6 +7,8 @@ export const profile = {
   name: "Kenneth Sta Maria",
   title: "Full Stack Developer",
   tagline: "Hi! I am",
+  shortbio:
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis dolore aspernatur architecto omnis animi cum dignissimos repellat. Pariatur, dolorem dolor. Quia pariatur consequuntur tempora repellendus voluptatem est nulla earum!",
   heroImage: {
     src: "/images/profile.png",
     alt: "Portrait photo",
@@ -21,15 +23,11 @@ export const profile = {
     "I’m currently studying at Mission Ready HQ, where I’m close to completing my AI-Powered Full Stack Developer Diploma. Through my projects and assignments, I’ve gained hands-on experience creating AI-powered applications using Azure and Gemini, as well as building full-stack solutions with HTML, CSS, JavaScript, React, Node.js, MongoDB, MySQL, and Tailwind CSS.",
     "I’m passionate about continuous learning and using technology to build meaningful, user-focused solutions. My goal is to keep growing as a developer and contribute to innovative projects that make a real impact.",
   ],
-  highlights: [
-    "Accessibility-first UI",
-    "Performance-minded animation",
-    "Clean, maintainable components",
-  ],
+  highlights: ["Accessibility-first UI", "Clean, maintainable components"],
   socials: [
-    { label: "GitHub", href: "https://github.com/" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/" },
-    { label: "Email", href: "mailto:kenneth@example.com" },
+    { label: "GitHub", href: "https://github.com/kstamaria29/" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/kennethsm/" },
+    { label: "Email", href: "mailto:kennethsm.dev@gmail.com" },
   ] satisfies SocialLink[],
   ctas: {
     primary: { label: "View projects", href: "#projects" },

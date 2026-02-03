@@ -44,7 +44,7 @@ export function Hero() {
             </h1>
 
             <p className="mt-5 max-w-2xl text-pretty text-base leading-relaxed text-zinc-600 dark:text-zinc-300">
-              {profile.bio[0]}
+              {profile.shortbio}
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">

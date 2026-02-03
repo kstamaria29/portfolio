@@ -12,15 +12,15 @@ export const contact = {
   heading: "Contact",
   description:
     "Have a role, project, or collaboration in mind? Send a message and I'll get back to you.",
-  email: "kstamaria29@gmail.com",
+  email: "kennethsm.dev@gmail.com",
   infoCard: {
     heading: "Contact Information",
     items: [
       {
         id: "email",
         label: "Email",
-        value: "kstamaria29@gmail.com",
-        href: "mailto:kstamaria29@gmail.com",
+        value: "kennethsm.dev@gmail.com",
+        href: "mailto:kennethsm.dev@gmail.com",
         icon: "mail",
       },
       {
