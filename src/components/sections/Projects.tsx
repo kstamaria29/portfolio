@@ -156,7 +156,7 @@ export function Projects() {
               {...hoverTap}
             >
               {project.images[0] ? (
-                <div className="mb-5 overflow-hidden rounded-xl border border-zinc-200/70 bg-zinc-50 dark:border-white/10 dark:bg-white/5">
+                <div className="-mx-6 -mt-6 mb-5 overflow-hidden rounded-t-2xl bg-zinc-50 dark:bg-white/5">
                   <img
                     src={project.images[0].src}
                     alt={project.images[0].alt}
@@ -164,6 +164,7 @@ export function Projects() {
                     loading="lazy"
                     decoding="async"
                   />
+                  <div className="h-px bg-zinc-200/70 dark:bg-white/10" aria-hidden="true" />
                 </div>
               ) : null}
               <div className="flex items-start justify-between gap-4">
