@@ -41,7 +41,8 @@ export function ImageLightbox({
     return document.body;
   }, []);
 
-  const safeIndex = images.length === 0 ? 0 : ((index % images.length) + images.length) % images.length;
+  const safeIndex =
+    images.length === 0 ? 0 : ((index % images.length) + images.length) % images.length;
   const active = images[safeIndex];
 
   useEffect(() => {
@@ -139,7 +140,7 @@ export function ImageLightbox({
 
   return createPortal(
     <motion.div
-      className="fixed inset-0 z-[70] cursor-pointer bg-zinc-950/80 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-70 cursor-pointer bg-zinc-950/80 p-4 backdrop-blur-sm"
       onMouseDown={onClose}
       aria-hidden={false}
       {...motionProps}
@@ -221,7 +222,9 @@ export function ImageLightbox({
                   onClick={() => onIndexChange(i)}
                   className={cn(
                     "overflow-hidden rounded-lg border bg-white/5",
-                    selected ? "border-emerald-300" : "border-white/10 hover:border-white/20",
+                    selected
+                      ? "border-emerald-300"
+                      : "border-white/10 hover:border-white/20",
                   )}
                   aria-label={`Open image ${i + 1} of ${images.length}`}
                   aria-current={selected ? "true" : undefined}
