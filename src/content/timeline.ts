@@ -7,28 +7,29 @@ export type TimelineItem = {
 
 export const timelineSection = {
   heading: "Timeline",
-  description: "A quick look at the milestones, roles, and learning moments along my journey.",
+  description:
+    "A quick look at the milestones, roles, and learning moments along my journey.",
 } as const;
 
 export const timeline: TimelineItem[] = [
   {
     id: "timeline-1",
-    title: "Timeline entry title",
+    title: "SM Driving School",
     caption: "Jan 2026 - Present",
     description:
       "A short description of what you worked on, the impact you made, and the skills you strengthened. Replace this placeholder with your real story.",
   },
   {
     id: "timeline-2",
-    title: "Another timeline entry",
-    caption: "Sep 2024 - Dec 2025",
+    title: "Seen Ventures (Mentored Industry Placement)",
+    caption: "October 2025 - January 2026",
     description:
       "Use this space to highlight a role, course, or project phase. Keep it concise and focus on outcomes, collaboration, and what you shipped.",
   },
   {
     id: "timeline-3",
-    title: "One more entry",
-    caption: "2019 - 2023",
+    title: "Mission Ready HQ",
+    caption: "2025 - 2026",
     description:
       "Add a few sentences about your responsibilities, achievements, or key learnings. You can update the content later in this file.",
   },

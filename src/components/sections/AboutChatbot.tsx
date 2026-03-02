@@ -1,5 +1,5 @@
 import { Bot, Send, Sparkles, Trash2 } from "lucide-react";
-import { type ReactNode, useEffect, useId, useMemo, useRef, useState } from "react";
+import { type ReactNode, useId, useMemo, useRef, useState } from "react";
 
 import { portfolioAssistant } from "../../content/ai";
 import { contact } from "../../content/contact";
@@ -278,7 +278,6 @@ function renderMarkdownMessage(markdown: string) {
 export function AboutChatbot() {
   const inputId = useId();
   const listId = useId();
-  const bottomRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
   const initialMessages = useMemo<ChatMessage[]>(
@@ -297,10 +296,6 @@ export function AboutChatbot() {
   const [selectedSuggestion, setSelectedSuggestion] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [status, setStatus] = useState<null | { kind: "error"; message: string }>(null);
-
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ block: "end" });
-  }, [messages.length, isSending]);
 
   async function sendMessage(text: string) {
     const trimmed = text.trim();
@@ -341,7 +336,7 @@ export function AboutChatbot() {
       if (!reply) throw new Error("Chatbot returned an empty response.");
 
       setMessages((prev) => [...prev, { id: createMessageId(), role: "assistant", content: reply }]);
-      inputRef.current?.focus();
+      inputRef.current?.focus({ preventScroll: true });
     } catch (error) {
       const message = getErrorMessage(error);
       setStatus({ kind: "error", message });
@@ -363,7 +358,7 @@ export function AboutChatbot() {
     setMessages(initialMessages);
     setValue("");
     setSelectedSuggestion("");
-    inputRef.current?.focus();
+    inputRef.current?.focus({ preventScroll: true });
   }
 
   return (
@@ -534,7 +529,6 @@ export function AboutChatbot() {
                   </div>
                 ) : null}
 
-                <div ref={bottomRef} />
               </div>
             </div>
 
