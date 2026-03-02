@@ -96,9 +96,9 @@ export const projects: Project[] = [
     title: "SM Driving Marketing Site",
     category: "production",
     shortDescription:
-      "A CMS-driven marketing site for SM Driving School with hero, services, pricing, reviews, FAQs, and contact sections built for fast updates and conversions.",
+      "A CMS-driven marketing site for SM Driving School with hero, services, pricing, testimonials, FAQs, and contact sections built for fast updates and conversions.",
     fullDescription:
-      "A modern React/Vite marketing experience for SM Driving School that pulls live content from a Supabase-backed CMS. The homepage assembles hero messaging, services, pricing, reviews, about, FAQs, and contact into a cohesive conversion funnel, while also featuring video content to build trust and credibility. Content is retrieved via dedicated CMS queries (hero, services, pricing, FAQs, reviews, and more), enabling non-developers to update the site without code changes and ensuring the marketing copy stays current and consistent across sections.",
+      "A modern React/Vite marketing experience for SM Driving School that pulls live content from a Supabase-backed CMS. The homepage assembles hero messaging, services, pricing, testimonials, about, FAQs, and contact into a cohesive conversion funnel, while also featuring video content to build trust and credibility. Content is retrieved via dedicated CMS queries (hero, services, pricing, FAQs, testimonials, and more), enabling non-developers to update the site without code changes and ensuring the marketing copy stays current and consistent across sections.",
     techStack: ["React.js", "Typescript", "Tailwind", "Supabase"],
     images: [
       { src: "/projects/smdriving-marketing1.jpg", alt: "SM Driving Marketing 1" },
@@ -129,7 +129,7 @@ export const projects: Project[] = [
     shortDescription:
       "An admin dashboard for managing lessons, students, assessments, blog content, and CMS updates, with a central home view for day-to-day operations.",
     fullDescription:
-      "A full operations hub tailored for driving school workflows. The dashboard’s home view surfaces real-time teaching context such as local weather conditions and upcoming lessons to help instructors plan effectively. It includes dedicated areas for calendar scheduling, student management, assessments, mock tests, and blog publishing, all accessible from a unified sidebar. The platform also provides a built-in content management section that mirrors the marketing site’s CMS structure, allowing staff to edit hero, services, reviews, pricing, and FAQs directly from the admin interface.",
+      "A full operations hub tailored for driving school workflows. The dashboard’s home view surfaces real-time teaching context such as local weather conditions and upcoming lessons to help instructors plan effectively. It includes dedicated areas for calendar scheduling, student management, assessments, mock tests, and blog publishing, all accessible from a unified sidebar. The platform also provides a built-in content management section that mirrors the marketing site’s CMS structure, allowing staff to edit hero, services, testimonials, pricing, and FAQs directly from the admin interface.",
     techStack: ["Next.js", "Typescript", "Tailwind", "Jotai", "Supabase", "OpenAi"],
     images: [
       { src: "/projects/smdriving-dashboard1.jpg", alt: "SM Driving Dashboard image 1" },

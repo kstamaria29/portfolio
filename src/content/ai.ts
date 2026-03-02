@@ -1,11 +1,12 @@
 import { contact } from "./contact";
 import { profile } from "./profile";
 import { projects } from "./projects";
-import { reviews } from "./reviews";
 import { skillsSection } from "./skills";
+import { testimonials } from "./testimonials";
+import { timeline, timelineSection } from "./timeline";
 
 export const portfolioAssistant = {
-  heading: "Ask Kenneth AI",
+  heading: "Kenneth's Ai Chatbot",
   description:
     "Ask anything about my background, projects, skills, or how to reach me. This bot only answers using my portfolio info.",
   greeting:
@@ -68,13 +69,23 @@ export function getPortfolioAssistantContext() {
       highlights: project.highlights ?? [],
       links: project.links,
     })),
-    reviews: reviews.map((review) => ({
-      id: review.id,
-      name: review.name,
-      title: review.title,
-      company: review.company,
-      quote: review.quote,
+    testimonials: testimonials.map((testimonial) => ({
+      id: testimonial.id,
+      name: testimonial.name,
+      title: testimonial.title,
+      company: testimonial.company,
+      quote: testimonial.quote,
     })),
+    timeline: {
+      heading: timelineSection.heading,
+      description: timelineSection.description,
+      items: timeline.map((item) => ({
+        id: item.id,
+        title: item.title,
+        caption: item.caption,
+        description: item.description,
+      })),
+    },
     contact: {
       heading: contact.heading,
       description: contact.description,
@@ -90,4 +101,3 @@ export function getPortfolioAssistantContext() {
     extra: portfolioAssistant.extraContext,
   } as const;
 }
-

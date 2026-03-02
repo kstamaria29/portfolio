@@ -4,8 +4,8 @@ import { About } from "./components/sections/About";
 import { Contact } from "./components/sections/Contact";
 import { Hero } from "./components/sections/Hero";
 import { Projects } from "./components/sections/Projects";
-import { Reviews } from "./components/sections/Reviews";
 import { Skills } from "./components/sections/Skills";
+import { Testimonials } from "./components/sections/Testimonials";
 import { Timeline } from "./components/sections/Timeline";
 
 export function App() {
@@ -24,7 +24,7 @@ export function App() {
         <Skills />
         <Projects />
         <Timeline />
-        <Reviews />
+        <Testimonials />
         <Contact />
       </main>
       <Footer />

@@ -8,7 +8,7 @@ export const profile = {
   title: "Full Stack Developer",
   tagline: "Hi! I am",
   shortbio:
-    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis dolore aspernatur architecto omnis animi cum dignissimos repellat. Pariatur, dolorem dolor. Quia pariatur consequuntur tempora repellendus voluptatem est nulla earum!",
+    "AI-powered full stack developer who loves turning ideas into user-focused products. Skilled in Next.js, React, MongoDB, MySQL, and Tailwind CSS, with experience building AI features using Azure and Gemini. Exploring Ai Tools such as OpenAI Codex to sharpen my workflow as AI evolves fast.",
   heroImage: {
     src: "/images/profile.png",
     alt: "Portrait photo",

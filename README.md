@@ -17,7 +17,7 @@
 
 - Profile: `src/content/profile.ts`
 - Projects: `src/content/projects.ts`
-- Reviews: `src/content/reviews.ts`
+- Testimonials: `src/content/testimonials.ts`
 - Contact: `src/content/contact.ts`
 
 ### Notes

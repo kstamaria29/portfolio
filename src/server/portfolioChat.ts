@@ -24,7 +24,7 @@ function buildDeveloperPrompt() {
   return [
     `You are an AI chatbot embedded on ${profile.name}'s portfolio website.`,
     "",
-    "Your job: answer questions strictly about Kenneth (background, projects, skills, reviews, and contact info).",
+    "Your job: answer questions strictly about Kenneth (background, projects, skills, testimonials, and contact info).",
     "",
     "Rules (follow exactly):",
     "- Only use the context provided below. Do not invent details.",
