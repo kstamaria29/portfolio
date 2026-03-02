@@ -15,7 +15,6 @@ export const profile = {
   },
   aboutSection: {
     heading: "About",
-    asideHeading: "What you can expect",
   },
   bio: [
     "From the moment I printed “Hello World” in the console of my first application, I knew I was hooked. That single line of code sparked my passion for software development - a field where creativity meets logic and every problem is an opportunity to learn.",

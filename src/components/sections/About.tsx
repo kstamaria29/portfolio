@@ -60,7 +60,7 @@ export function About() {
         >
           <div ref={profileCardRef}>
             <Card>
-              <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+              <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
                 Profile bio
               </h3>
 
@@ -68,20 +68,6 @@ export function About() {
                 {profile.bio.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
-              </div>
-
-              <div className="mt-6 border-t border-zinc-200/70 pt-5 dark:border-white/10">
-                <h4 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
-                  {profile.aboutSection.asideHeading}
-                </h4>
-                <ul className="mt-4 space-y-2 text-sm text-zinc-600 dark:text-zinc-300">
-                  {profile.highlights.map((item) => (
-                    <li key={item} className="flex gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
               </div>
             </Card>
           </div>
