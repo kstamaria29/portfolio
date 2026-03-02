@@ -6,6 +6,7 @@ import { Hero } from "./components/sections/Hero";
 import { Projects } from "./components/sections/Projects";
 import { Reviews } from "./components/sections/Reviews";
 import { Skills } from "./components/sections/Skills";
+import { Timeline } from "./components/sections/Timeline";
 
 export function App() {
   return (
@@ -22,6 +23,7 @@ export function App() {
         <About />
         <Skills />
         <Projects />
+        <Timeline />
         <Reviews />
         <Contact />
       </main>

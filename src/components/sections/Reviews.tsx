@@ -12,7 +12,7 @@ export function Reviews() {
 
   return (
     <motion.section
-      id={sectionIds.reviews}
+      id={sectionIds.testimonials}
       className="scroll-mt-24 border-t border-zinc-200/60 py-20 dark:border-white/10"
       {...motionProps}
     >

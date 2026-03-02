@@ -1,5 +1,5 @@
-import { Bot, Send, ShieldCheck, Sparkles, Trash2 } from "lucide-react";
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { Bot, Send, Sparkles, Trash2 } from "lucide-react";
+import { type ReactNode, useEffect, useId, useMemo, useRef, useState } from "react";
 
 import { portfolioAssistant } from "../../content/ai";
 import { contact } from "../../content/contact";
@@ -23,6 +23,258 @@ function getErrorMessage(error: unknown) {
   return "Something went wrong.";
 }
 
+function renderInlineMarkdown(text: string, keyPrefix: string) {
+  const nodes: ReactNode[] = [];
+  const inlinePattern =
+    /(`[^`]+`)|(\[[^\]]+\]\((?:https?:\/\/[^\s)]+|mailto:[^)]+)\))|(\*\*[^*]+\*\*)|(\*[^*]+\*)/g;
+
+  let lastIndex = 0;
+  let tokenIndex = 0;
+  let match: RegExpExecArray | null = inlinePattern.exec(text);
+
+  while (match) {
+    const token = match[0];
+
+    if (match.index > lastIndex) {
+      nodes.push(text.slice(lastIndex, match.index));
+    }
+
+    if (token.startsWith("`") && token.endsWith("`")) {
+      nodes.push(
+        <code
+          key={`${keyPrefix}-code-${tokenIndex}`}
+          className="rounded bg-black/10 px-1 py-0.5 text-[0.9em] dark:bg-white/10"
+        >
+          {token.slice(1, -1)}
+        </code>,
+      );
+    } else if (token.startsWith("[") && token.includes("](")) {
+      const linkParts = token.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+      if (linkParts) {
+        const [, label, href] = linkParts;
+        nodes.push(
+          <a
+            key={`${keyPrefix}-link-${tokenIndex}`}
+            href={href}
+            className="font-semibold underline"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {label}
+          </a>,
+        );
+      } else {
+        nodes.push(token);
+      }
+    } else if (token.startsWith("**") && token.endsWith("**")) {
+      nodes.push(
+        <strong key={`${keyPrefix}-strong-${tokenIndex}`}>{token.slice(2, -2)}</strong>,
+      );
+    } else if (token.startsWith("*") && token.endsWith("*")) {
+      nodes.push(<em key={`${keyPrefix}-em-${tokenIndex}`}>{token.slice(1, -1)}</em>);
+    } else {
+      nodes.push(token);
+    }
+
+    tokenIndex += 1;
+    lastIndex = match.index + token.length;
+    match = inlinePattern.exec(text);
+  }
+
+  if (lastIndex < text.length) {
+    nodes.push(text.slice(lastIndex));
+  }
+
+  return nodes;
+}
+
+function renderMarkdownMessage(markdown: string) {
+  const nodes: ReactNode[] = [];
+  const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+
+  let blockIndex = 0;
+  let paragraphLines: string[] = [];
+  let quoteLines: string[] = [];
+  let listKind: "unordered" | "ordered" | null = null;
+  let listItems: string[] = [];
+  let inCodeBlock = false;
+  let codeLines: string[] = [];
+
+  const nextKey = (prefix: string) => {
+    blockIndex += 1;
+    return `${prefix}-${blockIndex}`;
+  };
+
+  const flushParagraph = () => {
+    if (!paragraphLines.length) return;
+    const text = paragraphLines.join(" ").trim();
+    paragraphLines = [];
+    if (!text) return;
+    const key = nextKey("p");
+    nodes.push(
+      <p key={key} className="leading-relaxed">
+        {renderInlineMarkdown(text, key)}
+      </p>,
+    );
+  };
+
+  const flushQuote = () => {
+    if (!quoteLines.length) return;
+    const text = quoteLines.join(" ").trim();
+    quoteLines = [];
+    if (!text) return;
+    const key = nextKey("quote");
+    nodes.push(
+      <blockquote
+        key={key}
+        className="border-l-2 border-zinc-300/80 pl-3 text-zinc-700 dark:border-white/20 dark:text-zinc-200"
+      >
+        {renderInlineMarkdown(text, key)}
+      </blockquote>,
+    );
+  };
+
+  const flushList = () => {
+    if (!listKind || !listItems.length) return;
+    const key = nextKey("list");
+    const items = listItems.map((item, itemIndex) => (
+      <li key={`${key}-item-${itemIndex}`}>{renderInlineMarkdown(item, `${key}-item-${itemIndex}`)}</li>
+    ));
+
+    if (listKind === "ordered") {
+      nodes.push(
+        <ol key={key} className="list-decimal space-y-1 pl-5 leading-relaxed">
+          {items}
+        </ol>,
+      );
+    } else {
+      nodes.push(
+        <ul key={key} className="list-disc space-y-1 pl-5 leading-relaxed">
+          {items}
+        </ul>,
+      );
+    }
+
+    listItems = [];
+    listKind = null;
+  };
+
+  const flushCodeBlock = () => {
+    if (!codeLines.length) return;
+    const key = nextKey("code");
+    nodes.push(
+      <pre
+        key={key}
+        className="no-scrollbar overflow-x-auto rounded-xl border border-zinc-200/70 bg-black/80 p-3 text-xs text-zinc-100 dark:border-white/10"
+      >
+        <code>{codeLines.join("\n")}</code>
+      </pre>,
+    );
+    codeLines = [];
+  };
+
+  for (const line of lines) {
+    if (line.trim().startsWith("```")) {
+      flushParagraph();
+      flushQuote();
+      flushList();
+      if (inCodeBlock) {
+        flushCodeBlock();
+        inCodeBlock = false;
+      } else {
+        inCodeBlock = true;
+      }
+      continue;
+    }
+
+    if (inCodeBlock) {
+      codeLines.push(line);
+      continue;
+    }
+
+    const headingMatch = line.match(/^(#{1,6})\s+(.+)$/);
+    if (headingMatch) {
+      flushParagraph();
+      flushQuote();
+      flushList();
+
+      const level = Math.min(headingMatch[1].length, 4);
+      const content = headingMatch[2].trim();
+      const key = nextKey("heading");
+
+      if (level === 1) {
+        nodes.push(
+          <h3 key={key} className="text-base font-semibold">
+            {renderInlineMarkdown(content, key)}
+          </h3>,
+        );
+      } else if (level === 2) {
+        nodes.push(
+          <h4 key={key} className="text-sm font-semibold">
+            {renderInlineMarkdown(content, key)}
+          </h4>,
+        );
+      } else {
+        nodes.push(
+          <h5 key={key} className="text-sm font-semibold">
+            {renderInlineMarkdown(content, key)}
+          </h5>,
+        );
+      }
+      continue;
+    }
+
+    if (!line.trim()) {
+      flushParagraph();
+      flushQuote();
+      flushList();
+      continue;
+    }
+
+    const quoteMatch = line.match(/^>\s?(.*)$/);
+    if (quoteMatch) {
+      flushParagraph();
+      flushList();
+      quoteLines.push(quoteMatch[1]);
+      continue;
+    }
+
+    const unorderedListMatch = line.match(/^[-*+]\s+(.+)$/);
+    if (unorderedListMatch) {
+      flushParagraph();
+      flushQuote();
+      if (listKind && listKind !== "unordered") flushList();
+      listKind = "unordered";
+      listItems.push(unorderedListMatch[1].trim());
+      continue;
+    }
+
+    const orderedListMatch = line.match(/^\d+\.\s+(.+)$/);
+    if (orderedListMatch) {
+      flushParagraph();
+      flushQuote();
+      if (listKind && listKind !== "ordered") flushList();
+      listKind = "ordered";
+      listItems.push(orderedListMatch[1].trim());
+      continue;
+    }
+
+    flushQuote();
+    flushList();
+    paragraphLines.push(line.trim());
+  }
+
+  flushParagraph();
+  flushQuote();
+  flushList();
+  if (inCodeBlock) {
+    flushCodeBlock();
+  }
+
+  if (!nodes.length) return <p className="leading-relaxed">{markdown}</p>;
+  return <div className="space-y-2">{nodes}</div>;
+}
+
 export function AboutChatbot() {
   const inputId = useId();
   const listId = useId();
@@ -42,6 +294,7 @@ export function AboutChatbot() {
 
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
   const [value, setValue] = useState("");
+  const [selectedSuggestion, setSelectedSuggestion] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [status, setStatus] = useState<null | { kind: "error"; message: string }>(null);
 
@@ -109,11 +362,12 @@ export function AboutChatbot() {
     setStatus(null);
     setMessages(initialMessages);
     setValue("");
+    setSelectedSuggestion("");
     inputRef.current?.focus();
   }
 
   return (
-    <div className="relative">
+    <div className="relative min-h-0 h-[var(--about-profile-card-height)]">
       <div
         aria-hidden="true"
         className={cn(
@@ -123,10 +377,10 @@ export function AboutChatbot() {
         )}
       />
 
-      <div className="rounded-3xl bg-linear-to-br from-emerald-400/30 via-sky-400/20 to-fuchsia-400/30 p-px">
+      <div className="h-full min-h-0 rounded-3xl bg-linear-to-br from-emerald-400/30 via-sky-400/20 to-fuchsia-400/30 p-px">
         <div
           className={cn(
-            "rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm backdrop-blur",
+            "flex h-full min-h-0 flex-col rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm backdrop-blur",
             "dark:border-white/10 dark:bg-zinc-950/35",
           )}
         >
@@ -135,7 +389,7 @@ export function AboutChatbot() {
               <div className="flex items-center gap-2">
                 <span
                   className={cn(
-                    "inline-flex h-9 w-9 items-center justify-center rounded-2xl",
+                    "inline-flex h-9 shrink-0 items-center justify-center rounded-2xl px-2",
                     "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-400/10 dark:text-emerald-300",
                   )}
                   aria-hidden="true"
@@ -143,36 +397,25 @@ export function AboutChatbot() {
                   <Bot className="h-4 w-4" />
                 </span>
                 <div className="min-w-0">
-                  <h3 className="truncate text-base font-semibold text-zinc-900 dark:text-zinc-50">
-                    {portfolioAssistant.heading}
-                  </h3>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h3 className="truncate text-base font-semibold text-zinc-900 dark:text-zinc-50">
+                      {portfolioAssistant.heading}
+                    </h3>
+                    <span
+                      className={cn(
+                        "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs",
+                        "border border-zinc-200/70 bg-white text-zinc-700",
+                        "dark:border-white/10 dark:bg-white/5 dark:text-zinc-200",
+                      )}
+                    >
+                      <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                      Powered by OpenAI
+                    </span>
+                  </div>
                   <p className="mt-0.5 text-xs text-zinc-600 dark:text-zinc-300">
                     {portfolioAssistant.description}
                   </p>
                 </div>
-              </div>
-
-              <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
-                <span
-                  className={cn(
-                    "inline-flex items-center gap-1 rounded-full px-2.5 py-1",
-                    "border border-zinc-200/70 bg-white text-zinc-700",
-                    "dark:border-white/10 dark:bg-white/5 dark:text-zinc-200",
-                  )}
-                >
-                  <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-                  Portfolio-only
-                </span>
-                <span
-                  className={cn(
-                    "inline-flex items-center gap-1 rounded-full px-2.5 py-1",
-                    "border border-zinc-200/70 bg-white text-zinc-700",
-                    "dark:border-white/10 dark:bg-white/5 dark:text-zinc-200",
-                  )}
-                >
-                  <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-                  Powered by OpenAI
-                </span>
               </div>
             </div>
 
@@ -188,28 +431,47 @@ export function AboutChatbot() {
             </Button>
           </div>
 
-          <div className="mt-5 flex flex-wrap gap-2">
-            {portfolioAssistant.suggestedQuestions.map((question) => (
-              <button
-                key={question}
-                type="button"
-                onClick={() => void sendMessage(question)}
-                disabled={isSending}
-                className={cn(
-                  "rounded-full px-3 py-1.5 text-xs font-semibold transition-colors",
-                  "border border-zinc-200/70 bg-white text-zinc-700 hover:bg-zinc-50",
-                  "disabled:opacity-60",
-                  "dark:border-white/10 dark:bg-white/5 dark:text-zinc-200 dark:hover:bg-white/10",
-                )}
-              >
-                {question}
-              </button>
-            ))}
+          <div className="mt-5 flex items-center gap-2">
+            <label htmlFor={`${inputId}-suggestions`} className="sr-only">
+              Suggested questions
+            </label>
+            <select
+              id={`${inputId}-suggestions`}
+              value={selectedSuggestion}
+              onChange={(event) => setSelectedSuggestion(event.target.value)}
+              disabled={isSending}
+              className={cn(
+                "h-10 w-full rounded-xl px-3 text-sm",
+                "border border-zinc-200/70 bg-white text-zinc-800",
+                "focus:ring-2 focus:ring-emerald-400/50",
+                "dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-100",
+              )}
+            >
+              <option value="">Pick a suggested question...</option>
+              {portfolioAssistant.suggestedQuestions.map((question) => (
+                <option key={question} value={question}>
+                  {question}
+                </option>
+              ))}
+            </select>
+            <Button
+              type="button"
+              size="sm"
+              onClick={() => {
+                if (!selectedSuggestion) return;
+                void sendMessage(selectedSuggestion);
+                setSelectedSuggestion("");
+              }}
+              disabled={isSending || !selectedSuggestion}
+              className="h-10 px-4"
+            >
+              Ask
+            </Button>
           </div>
 
           <div
             className={cn(
-              "mt-5 flex h-[22rem] flex-col overflow-hidden rounded-2xl",
+              "mt-5 flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl",
               "border border-zinc-200/70 bg-white/70",
               "dark:border-white/10 dark:bg-black/10",
             )}
@@ -219,7 +481,7 @@ export function AboutChatbot() {
               role="log"
               aria-label="Chat messages"
               aria-live="polite"
-              className="no-scrollbar flex-1 overflow-y-auto p-4"
+              className="no-scrollbar min-h-0 flex-1 overflow-y-auto p-4"
             >
               <div className="space-y-3">
                 {messages.map((message) => (
@@ -244,7 +506,9 @@ export function AboutChatbot() {
                             ),
                       )}
                     >
-                      {message.content}
+                      {message.role === "assistant"
+                        ? renderMarkdownMessage(message.content)
+                        : message.content}
                     </div>
                   </div>
                 ))}
@@ -292,7 +556,7 @@ export function AboutChatbot() {
                 <textarea
                   ref={inputRef}
                   id={inputId}
-                  rows={2}
+                  rows={1}
                   value={value}
                   onChange={(event) => setValue(event.target.value)}
                   onKeyDown={(event) => {
@@ -304,7 +568,7 @@ export function AboutChatbot() {
                   aria-describedby={status ? `${inputId}-status` : undefined}
                   placeholder="Ask about projects, skills, background..."
                   className={cn(
-                    "min-h-[44px] w-full resize-none rounded-2xl px-3 py-2 text-sm leading-relaxed",
+                    "h-11 w-full resize-none rounded-2xl px-3 py-2 text-sm leading-relaxed",
                     "border border-zinc-200/70 bg-white text-zinc-900 placeholder:text-zinc-500",
                     "focus:ring-2 focus:ring-emerald-400/50",
                     "dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-50 dark:placeholder:text-zinc-400",
@@ -322,18 +586,6 @@ export function AboutChatbot() {
                 >
                   <Send className="h-4 w-4" aria-hidden="true" />
                 </Button>
-              </div>
-
-              <div className="mt-2 flex items-center justify-between gap-3">
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                  Press Enter to send, Shift+Enter for a new line.
-                </p>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                  Prefer email?{" "}
-                  <a className="font-semibold underline" href={`mailto:${contact.email}`}>
-                    {contact.email}
-                  </a>
-                </p>
               </div>
 
               {status ? (

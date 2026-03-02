@@ -35,7 +35,7 @@ export const projectsSection = {
 
 export const projects: Project[] = [
   {
-    id: "project-1",
+    id: "project-prod-1",
     title: "Seen People Landing Page",
     category: "production",
     shortDescription:
@@ -65,7 +65,7 @@ export const projects: Project[] = [
     date: "2026",
   },
   {
-    id: "project-2",
+    id: "project-prod-2",
     title: "Seen People Submission Page",
     category: "production",
     shortDescription:
@@ -92,7 +92,7 @@ export const projects: Project[] = [
     date: "2026",
   },
   {
-    id: "project-3",
+    id: "project-prod-3",
     title: "SM Driving Marketing Site",
     category: "production",
     shortDescription:
@@ -123,7 +123,7 @@ export const projects: Project[] = [
     date: "2026",
   },
   {
-    id: "project-4",
+    id: "project-prod-4",
     title: "SM Driving School Operations Dashboard",
     category: "production",
     shortDescription:
@@ -132,8 +132,9 @@ export const projects: Project[] = [
       "A full operations hub tailored for driving school workflows. The dashboard’s home view surfaces real-time teaching context such as local weather conditions and upcoming lessons to help instructors plan effectively. It includes dedicated areas for calendar scheduling, student management, assessments, mock tests, and blog publishing, all accessible from a unified sidebar. The platform also provides a built-in content management section that mirrors the marketing site’s CMS structure, allowing staff to edit hero, services, reviews, pricing, and FAQs directly from the admin interface.",
     techStack: ["Next.js", "Typescript", "Tailwind", "Jotai", "Supabase", "OpenAi"],
     images: [
-      { src: "/projects/smdriving-dashboard1.jpg", alt: "Project placeholder image 1" },
-      { src: "/placeholders/project-2.svg", alt: "Project placeholder image 2" },
+      { src: "/projects/smdriving-dashboard1.jpg", alt: "SM Driving Dashboard image 1" },
+      { src: "/projects/smdriving-dashboard2.jpg", alt: "SM Driving Dashboard image 2" },
+      { src: "/projects/smdriving-dashboard3.jpg", alt: "SM Driving Dashboard image 3" },
     ],
     links: [{ label: "GitHub", href: "https://github.com/kstamaria29/smdriving" }],
     highlights: [
@@ -146,7 +147,41 @@ export const projects: Project[] = [
     date: "2026",
   },
   {
-    id: "project-5",
+    id: "project-prod-5",
+    title: "Driving School Management App",
+    category: "production",
+    shortDescription:
+      "Built a production-ready Expo React Native app for driving schools, combining student/lesson operations, three assessment workflows, and role-based multi-tenant security with Supabase RLS.",
+    fullDescription:
+      "Driving School Management App is a full-featured mobile platform for modern driving schools, designed to help instructors and admins run day-to-day operations from one secure app. It includes end-to-end student and lesson workflows, configurable assessments (Driving Assessment, Restricted Mock Test, and Full License Mock Test), and PDF export capabilities to support structured evaluation and reporting. The app uses an auth-gated navigation architecture with onboarding and resilient session handling, then transitions into a drawer-based main experience optimized for real operational use. Under the hood, it is built with Expo + React Native + TypeScript, powered by Supabase, React Query, and a role-aware data model that enforces organization boundaries and permissions for owner/admin/instructor roles through RLS policies. This project demonstrates strong product thinking, secure multi-tenant backend design, and scalable mobile architecture suitable for real clients—not just demos.",
+    techStack: [
+      "React Native Expo",
+      "Typescript",
+      "Codex",
+      "Zustand",
+      "Supabase",
+      "OpenAi",
+    ],
+    images: [
+      { src: "/projects/smdriving-dashboard1.jpg", alt: "SM Driving Dashboard image 1" },
+      { src: "/projects/smdriving-dashboard2.jpg", alt: "SM Driving Dashboard image 2" },
+      { src: "/projects/smdriving-dashboard3.jpg", alt: "SM Driving Dashboard image 3" },
+    ],
+    links: [{ label: "GitHub", href: "https://github.com/kstamaria29/smdriving" }],
+    highlights: [
+      "Multi-tenant architecture with strict Supabase RLS controls.",
+      "Role-based workflows for owners, admins, and instructors.",
+      "End-to-end student lifecycle: onboarding, archive, and histories.",
+      "Lesson scheduling with Today/Week and calendar workflows.",
+      "Three assessment engines, including PDF result exports.",
+      "Auth-gated navigation with robust session recovery handling.",
+      "Responsive drawer UX with theme-aware mobile interfaces.",
+    ],
+    date: "2026",
+  },
+
+  {
+    id: "project-side-1",
     title: "Ai Portfolio Generator",
     category: "side",
     shortDescription:
@@ -169,7 +204,7 @@ export const projects: Project[] = [
     date: "2025",
   },
   {
-    id: "project-6",
+    id: "project-side-2",
     title: "Nano Banana Library",
     category: "side",
     shortDescription:
@@ -206,7 +241,7 @@ export const projects: Project[] = [
     date: "2025",
   },
   {
-    id: "project-7",
+    id: "project-side-3",
     title: "Kenneth's Recipe Generator",
     category: "side",
     shortDescription:

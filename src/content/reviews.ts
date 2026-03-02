@@ -7,8 +7,8 @@ export type Review = {
 };
 
 export const reviewsSection = {
-  heading: "Reviews",
-  description: "Reviews and testimonials from the people I have worked and studied with.",
+  heading: "Testimonials",
+  description: "Testimonials from the people I have worked and studied with.",
 } as const;
 
 export const reviews: Review[] = [
