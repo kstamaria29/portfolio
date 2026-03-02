@@ -25,6 +25,17 @@ export function Hero() {
       className="relative scroll-mt-24 flex min-h-[80vh] items-center py-16 sm:py-20 md:max-h-screen"
       {...motionProps}
     >
+      <div className="pointer-events-none absolute inset-0 overflow-hidden lg:hidden">
+        <img
+          src={profile.heroImage.src}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover object-bottom opacity-30 dark:opacity-25"
+          loading="eager"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/70 to-white/95 dark:from-zinc-950/90 dark:via-zinc-950/60 dark:to-zinc-950/90" />
+      </div>
+
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -left-24 top-10 h-72 w-72 rounded-full bg-emerald-400/20 blur-3xl" />
         <div className="absolute -right-24 top-24 h-72 w-72 rounded-full bg-sky-400/20 blur-3xl" />
@@ -77,7 +88,7 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="relative">
+          <div className="relative hidden lg:block">
             <div className="pointer-events-none absolute -inset-8 rounded-full bg-emerald-400/10 blur-2xl dark:bg-emerald-800/10" />
 
             <img

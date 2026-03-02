@@ -35,7 +35,11 @@ export function Testimonials() {
                   ? testimonial.quote
                   : [testimonial.quote]
                 ).map((paragraph, index) => (
-                  <p key={index}>â€œ{paragraph}â€</p>
+                  <p key={index}>
+                    {"\u201c"}
+                    {paragraph}
+                    {"\u201d"}
+                  </p>
                 ))}
               </div>
               <div className="mt-6">
@@ -43,7 +47,7 @@ export function Testimonials() {
                   {testimonial.name}
                 </p>
                 <p className="text-xs text-zinc-600 dark:text-zinc-400">
-                  {testimonial.title} Â· {testimonial.company}
+                  {testimonial.title} {"\u00b7"} {testimonial.company}
                 </p>
               </div>
             </Card>
@@ -53,4 +57,3 @@ export function Testimonials() {
     </motion.section>
   );
 }
-
