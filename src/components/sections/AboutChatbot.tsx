@@ -281,6 +281,8 @@ export function AboutChatbot() {
   const inputId = useId();
   const listId = useId();
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
+  const messageListRef = useRef<HTMLDivElement | null>(null);
+  const shouldAutoScrollRef = useRef(true);
 
   const initialMessages = useMemo<ChatMessage[]>(
     () => [
@@ -301,6 +303,32 @@ export function AboutChatbot() {
   const [isStarted, setIsStarted] = useState(false);
 
   useEffect(() => {
+    const el = messageListRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const distanceFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+      shouldAutoScrollRef.current = distanceFromBottom < 48;
+    };
+
+    update();
+    el.addEventListener("scroll", update, { passive: true });
+    return () => el.removeEventListener("scroll", update);
+  }, []);
+
+  useEffect(() => {
+    if (!isStarted) return;
+    const el = messageListRef.current;
+    if (!el) return;
+    if (!shouldAutoScrollRef.current) return;
+
+    el.scrollTo({
+      top: el.scrollHeight,
+      behavior: shouldReduceMotion ? "auto" : "smooth",
+    });
+  }, [isSending, isStarted, messages.length, shouldReduceMotion]);
+
+  useEffect(() => {
     if (!isStarted) return;
     if (typeof window === "undefined") return;
 
@@ -316,6 +344,7 @@ export function AboutChatbot() {
     const trimmed = text.trim();
     if (!trimmed) return;
 
+    shouldAutoScrollRef.current = true;
     setStatus(null);
     setIsSending(true);
 
@@ -369,6 +398,7 @@ export function AboutChatbot() {
   }
 
   function handleClear() {
+    shouldAutoScrollRef.current = true;
     setStatus(null);
     setMessages(initialMessages);
     setValue("");
@@ -439,7 +469,10 @@ export function AboutChatbot() {
         <Button
           type="button"
           variant="primary"
-          onClick={() => setIsStarted(true)}
+          onClick={() => {
+            shouldAutoScrollRef.current = true;
+            setIsStarted(true);
+          }}
           disabled={isStarted}
           className="mt-6 h-11 rounded-2xl px-6"
         >
@@ -542,6 +575,7 @@ export function AboutChatbot() {
           )}
         >
           <div
+            ref={messageListRef}
             id={listId}
             role="log"
             aria-label="Chat messages"
