@@ -1,5 +1,6 @@
 import { Bot, Send, Sparkles, Trash2 } from "lucide-react";
-import { type ReactNode, useId, useMemo, useRef, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { type ReactNode, useEffect, useId, useMemo, useRef, useState } from "react";
 
 import { portfolioAssistant } from "../../content/ai";
 import { contact } from "../../content/contact";
@@ -276,6 +277,7 @@ function renderMarkdownMessage(markdown: string) {
 }
 
 export function AboutChatbot() {
+  const shouldReduceMotion = useReducedMotion();
   const inputId = useId();
   const listId = useId();
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
@@ -296,6 +298,19 @@ export function AboutChatbot() {
   const [selectedSuggestion, setSelectedSuggestion] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [status, setStatus] = useState<null | { kind: "error"; message: string }>(null);
+  const [isStarted, setIsStarted] = useState(false);
+
+  useEffect(() => {
+    if (!isStarted) return;
+    if (typeof window === "undefined") return;
+
+    const timeout = window.setTimeout(
+      () => inputRef.current?.focus({ preventScroll: true }),
+      shouldReduceMotion ? 0 : 700,
+    );
+
+    return () => window.clearTimeout(timeout);
+  }, [isStarted, shouldReduceMotion]);
 
   async function sendMessage(text: string) {
     const trimmed = text.trim();
@@ -361,6 +376,309 @@ export function AboutChatbot() {
     inputRef.current?.focus({ preventScroll: true });
   }
 
+  const use3dFlip = !shouldReduceMotion;
+  const chatDisabled = !isStarted;
+
+  const frontFaceClassName = cn(
+    "absolute inset-0 flex min-h-0 flex-col items-center justify-center p-6 text-center",
+    use3dFlip ? "backface-hidden" : "transition-opacity duration-200",
+    use3dFlip
+      ? isStarted
+        ? "pointer-events-none"
+        : ""
+      : isStarted
+        ? "pointer-events-none opacity-0"
+        : "opacity-100",
+  );
+
+  const backFaceClassName = cn(
+    "absolute inset-0 flex min-h-0 flex-col p-6",
+    use3dFlip ? "backface-hidden rotate-y-180" : "transition-opacity duration-200",
+    use3dFlip
+      ? isStarted
+        ? ""
+        : "pointer-events-none"
+      : isStarted
+        ? "opacity-100"
+        : "pointer-events-none opacity-0",
+  );
+
+  const flipFaces = (
+    <>
+      <div aria-hidden={isStarted} className={frontFaceClassName}>
+        <span
+          className={cn(
+            "inline-flex h-14 w-14 items-center justify-center rounded-3xl",
+            "bg-emerald-500/10 text-emerald-600",
+            "dark:bg-emerald-400/10 dark:text-emerald-300",
+          )}
+          aria-hidden="true"
+        >
+          <Bot className="h-7 w-7" />
+        </span>
+
+        <h3 className="mt-5 text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+          {portfolioAssistant.heading}
+        </h3>
+
+        <p className="mt-3 max-w-sm text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+          {portfolioAssistant.description}
+        </p>
+
+        <span
+          className={cn(
+            "mt-5 inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold",
+            "border border-zinc-200/70 bg-white text-zinc-700",
+            "dark:border-white/10 dark:bg-white/5 dark:text-zinc-200",
+          )}
+        >
+          <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+          Powered by OpenAI
+        </span>
+
+        <Button
+          type="button"
+          variant="primary"
+          onClick={() => setIsStarted(true)}
+          disabled={isStarted}
+          className="mt-6 h-11 rounded-2xl px-6"
+        >
+          Start chat
+        </Button>
+      </div>
+
+      <div aria-hidden={!isStarted} className={backFaceClassName}>
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <span
+                className={cn(
+                  "inline-flex h-9 shrink-0 items-center justify-center rounded-2xl px-2",
+                  "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-400/10 dark:text-emerald-300",
+                )}
+                aria-hidden="true"
+              >
+                <Bot className="h-4 w-4" />
+              </span>
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="truncate text-base font-semibold text-zinc-900 dark:text-zinc-50">
+                    {portfolioAssistant.heading}
+                  </h3>
+                  <span
+                    className={cn(
+                      "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs",
+                      "border border-zinc-200/70 bg-white text-zinc-700",
+                      "dark:border-white/10 dark:bg-white/5 dark:text-zinc-200",
+                    )}
+                  >
+                    <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                    Powered by OpenAI
+                  </span>
+                </div>
+                <p className="mt-0.5 text-xs text-zinc-600 dark:text-zinc-300">
+                  {portfolioAssistant.description}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={handleClear}
+            className="shrink-0"
+            aria-label="Clear chat"
+            disabled={chatDisabled}
+          >
+            <Trash2 className="h-4 w-4" aria-hidden="true" />
+          </Button>
+        </div>
+
+        <div className="mt-5 flex items-center gap-2">
+          <label htmlFor={`${inputId}-suggestions`} className="sr-only">
+            Suggested questions
+          </label>
+          <select
+            id={`${inputId}-suggestions`}
+            value={selectedSuggestion}
+            onChange={(event) => setSelectedSuggestion(event.target.value)}
+            disabled={chatDisabled || isSending}
+            className={cn(
+              "h-10 w-full rounded-xl px-3 text-sm",
+              "border border-zinc-200/70 bg-white text-zinc-800",
+              "focus:ring-2 focus:ring-emerald-400/50",
+              "dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-100",
+            )}
+          >
+            <option value="">Pick a suggested question...</option>
+            {portfolioAssistant.suggestedQuestions.map((question) => (
+              <option key={question} value={question}>
+                {question}
+              </option>
+            ))}
+          </select>
+          <Button
+            type="button"
+            size="sm"
+            onClick={() => {
+              if (chatDisabled || !selectedSuggestion) return;
+              void sendMessage(selectedSuggestion);
+              setSelectedSuggestion("");
+            }}
+            disabled={chatDisabled || isSending || !selectedSuggestion}
+            className="h-10 px-4"
+          >
+            Ask
+          </Button>
+        </div>
+
+        <div
+          className={cn(
+            "mt-5 flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl",
+            "border border-zinc-200/70 bg-white/70",
+            "dark:border-white/10 dark:bg-black/10",
+          )}
+        >
+          <div
+            id={listId}
+            role="log"
+            aria-label="Chat messages"
+            aria-live="polite"
+            className="no-scrollbar min-h-0 flex-1 overflow-y-auto p-4"
+          >
+            <div className="space-y-3">
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={cn("flex", message.role === "user" ? "justify-end" : "justify-start")}
+                >
+                  <div
+                    className={cn(
+                      "max-w-[90%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed",
+                      message.role === "user"
+                        ? cn(
+                            "bg-emerald-500 text-zinc-950",
+                            "dark:bg-emerald-400 dark:text-zinc-950",
+                          )
+                        : cn(
+                            "border border-zinc-200/70 bg-white text-zinc-800",
+                            "dark:border-white/10 dark:bg-white/5 dark:text-zinc-100",
+                          ),
+                    )}
+                  >
+                    {message.role === "assistant"
+                      ? renderMarkdownMessage(message.content)
+                      : message.content}
+                  </div>
+                </div>
+              ))}
+
+              {isSending ? (
+                <div className="flex justify-start">
+                  <div
+                    className={cn(
+                      "inline-flex items-center gap-2 rounded-2xl px-3.5 py-2.5 text-sm",
+                      "border border-zinc-200/70 bg-white text-zinc-700",
+                      "dark:border-white/10 dark:bg-white/5 dark:text-zinc-200",
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "h-1.5 w-1.5 rounded-full bg-emerald-500",
+                        "dark:bg-emerald-300",
+                      )}
+                      aria-hidden="true"
+                    />
+                    Thinking...
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          </div>
+
+          <form
+            className={cn(
+              "border-t border-zinc-200/70 bg-white/60 p-3",
+              "dark:border-white/10 dark:bg-black/10",
+            )}
+            onSubmit={(event) => {
+              event.preventDefault();
+              if (chatDisabled) return;
+              void sendMessage(value);
+            }}
+          >
+            <label htmlFor={inputId} className="sr-only">
+              Message
+            </label>
+
+            <div className="flex items-end gap-2">
+              <textarea
+                ref={inputRef}
+                id={inputId}
+                rows={1}
+                value={value}
+                onChange={(event) => setValue(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" && !event.shiftKey) {
+                    event.preventDefault();
+                    if (chatDisabled) return;
+                    void sendMessage(value);
+                  }
+                }}
+                aria-describedby={status ? `${inputId}-status` : undefined}
+                placeholder="Ask about projects, skills, background..."
+                className={cn(
+                  "h-11 w-full resize-none rounded-2xl px-3 py-2 text-sm leading-relaxed",
+                  "border border-zinc-200/70 bg-white text-zinc-900 placeholder:text-zinc-500",
+                  "focus:ring-2 focus:ring-emerald-400/50",
+                  "dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-50 dark:placeholder:text-zinc-400",
+                )}
+                disabled={chatDisabled || isSending}
+              />
+
+              <Button
+                type="submit"
+                variant="primary"
+                size="sm"
+                className="h-11 w-11 rounded-2xl px-0"
+                disabled={chatDisabled || isSending || !value.trim()}
+                aria-label="Send message"
+              >
+                <Send className="h-4 w-4" aria-hidden="true" />
+              </Button>
+            </div>
+
+            {status ? (
+              <p
+                id={`${inputId}-status`}
+                className="mt-2 text-xs font-semibold text-rose-600 dark:text-rose-300"
+              >
+                {status.message}
+              </p>
+            ) : null}
+          </form>
+        </div>
+      </div>
+    </>
+  );
+
+  const flipSurface = use3dFlip ? (
+    <div className="h-full min-h-0 perspective-distant">
+      <motion.div
+        className="relative h-full min-h-0 transform-3d [will-change:transform]"
+        initial={false}
+        animate={{ rotateY: isStarted ? 180 : 0 }}
+        transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {flipFaces}
+      </motion.div>
+    </div>
+  ) : (
+    <div className="relative h-full min-h-0">{flipFaces}</div>
+  );
+
   return (
     <div className="relative min-h-0 h-[var(--about-profile-card-height)]">
       <div
@@ -375,223 +693,11 @@ export function AboutChatbot() {
       <div className="h-full min-h-0 rounded-3xl bg-linear-to-br from-emerald-400/30 via-sky-400/20 to-fuchsia-400/30 p-px">
         <div
           className={cn(
-            "flex h-full min-h-0 flex-col rounded-3xl border border-zinc-200/70 bg-white/80 p-6 shadow-sm backdrop-blur",
+            "relative h-full min-h-0 overflow-hidden rounded-3xl border border-zinc-200/70 bg-white/80 shadow-sm backdrop-blur",
             "dark:border-white/10 dark:bg-zinc-950/35",
           )}
         >
-          <div className="flex items-start justify-between gap-4">
-            <div className="min-w-0">
-              <div className="flex items-center gap-2">
-                <span
-                  className={cn(
-                    "inline-flex h-9 shrink-0 items-center justify-center rounded-2xl px-2",
-                    "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-400/10 dark:text-emerald-300",
-                  )}
-                  aria-hidden="true"
-                >
-                  <Bot className="h-4 w-4" />
-                </span>
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="truncate text-base font-semibold text-zinc-900 dark:text-zinc-50">
-                      {portfolioAssistant.heading}
-                    </h3>
-                    <span
-                      className={cn(
-                        "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs",
-                        "border border-zinc-200/70 bg-white text-zinc-700",
-                        "dark:border-white/10 dark:bg-white/5 dark:text-zinc-200",
-                      )}
-                    >
-                      <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-                      Powered by OpenAI
-                    </span>
-                  </div>
-                  <p className="mt-0.5 text-xs text-zinc-600 dark:text-zinc-300">
-                    {portfolioAssistant.description}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={handleClear}
-              className="shrink-0"
-              aria-label="Clear chat"
-            >
-              <Trash2 className="h-4 w-4" aria-hidden="true" />
-            </Button>
-          </div>
-
-          <div className="mt-5 flex items-center gap-2">
-            <label htmlFor={`${inputId}-suggestions`} className="sr-only">
-              Suggested questions
-            </label>
-            <select
-              id={`${inputId}-suggestions`}
-              value={selectedSuggestion}
-              onChange={(event) => setSelectedSuggestion(event.target.value)}
-              disabled={isSending}
-              className={cn(
-                "h-10 w-full rounded-xl px-3 text-sm",
-                "border border-zinc-200/70 bg-white text-zinc-800",
-                "focus:ring-2 focus:ring-emerald-400/50",
-                "dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-100",
-              )}
-            >
-              <option value="">Pick a suggested question...</option>
-              {portfolioAssistant.suggestedQuestions.map((question) => (
-                <option key={question} value={question}>
-                  {question}
-                </option>
-              ))}
-            </select>
-            <Button
-              type="button"
-              size="sm"
-              onClick={() => {
-                if (!selectedSuggestion) return;
-                void sendMessage(selectedSuggestion);
-                setSelectedSuggestion("");
-              }}
-              disabled={isSending || !selectedSuggestion}
-              className="h-10 px-4"
-            >
-              Ask
-            </Button>
-          </div>
-
-          <div
-            className={cn(
-              "mt-5 flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl",
-              "border border-zinc-200/70 bg-white/70",
-              "dark:border-white/10 dark:bg-black/10",
-            )}
-          >
-            <div
-              id={listId}
-              role="log"
-              aria-label="Chat messages"
-              aria-live="polite"
-              className="no-scrollbar min-h-0 flex-1 overflow-y-auto p-4"
-            >
-              <div className="space-y-3">
-                {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={cn(
-                      "flex",
-                      message.role === "user" ? "justify-end" : "justify-start",
-                    )}
-                  >
-                    <div
-                      className={cn(
-                        "max-w-[90%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed",
-                        message.role === "user"
-                          ? cn(
-                              "bg-emerald-500 text-zinc-950",
-                              "dark:bg-emerald-400 dark:text-zinc-950",
-                            )
-                          : cn(
-                              "border border-zinc-200/70 bg-white text-zinc-800",
-                              "dark:border-white/10 dark:bg-white/5 dark:text-zinc-100",
-                            ),
-                      )}
-                    >
-                      {message.role === "assistant"
-                        ? renderMarkdownMessage(message.content)
-                        : message.content}
-                    </div>
-                  </div>
-                ))}
-
-                {isSending ? (
-                  <div className="flex justify-start">
-                    <div
-                      className={cn(
-                        "inline-flex items-center gap-2 rounded-2xl px-3.5 py-2.5 text-sm",
-                        "border border-zinc-200/70 bg-white text-zinc-700",
-                        "dark:border-white/10 dark:bg-white/5 dark:text-zinc-200",
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "h-1.5 w-1.5 rounded-full bg-emerald-500",
-                          "dark:bg-emerald-300",
-                        )}
-                        aria-hidden="true"
-                      />
-                      Thinking...
-                    </div>
-                  </div>
-                ) : null}
-
-              </div>
-            </div>
-
-            <form
-              className={cn(
-                "border-t border-zinc-200/70 bg-white/60 p-3",
-                "dark:border-white/10 dark:bg-black/10",
-              )}
-              onSubmit={(event) => {
-                event.preventDefault();
-                void sendMessage(value);
-              }}
-            >
-              <label htmlFor={inputId} className="sr-only">
-                Message
-              </label>
-
-              <div className="flex items-end gap-2">
-                <textarea
-                  ref={inputRef}
-                  id={inputId}
-                  rows={1}
-                  value={value}
-                  onChange={(event) => setValue(event.target.value)}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter" && !event.shiftKey) {
-                      event.preventDefault();
-                      void sendMessage(value);
-                    }
-                  }}
-                  aria-describedby={status ? `${inputId}-status` : undefined}
-                  placeholder="Ask about projects, skills, background..."
-                  className={cn(
-                    "h-11 w-full resize-none rounded-2xl px-3 py-2 text-sm leading-relaxed",
-                    "border border-zinc-200/70 bg-white text-zinc-900 placeholder:text-zinc-500",
-                    "focus:ring-2 focus:ring-emerald-400/50",
-                    "dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-50 dark:placeholder:text-zinc-400",
-                  )}
-                  disabled={isSending}
-                />
-
-                <Button
-                  type="submit"
-                  variant="primary"
-                  size="sm"
-                  className="h-11 w-11 rounded-2xl px-0"
-                  disabled={isSending || !value.trim()}
-                  aria-label="Send message"
-                >
-                  <Send className="h-4 w-4" aria-hidden="true" />
-                </Button>
-              </div>
-
-              {status ? (
-                <p
-                  id={`${inputId}-status`}
-                  className="mt-2 text-xs font-semibold text-rose-600 dark:text-rose-300"
-                >
-                  {status.message}
-                </p>
-              ) : null}
-            </form>
-          </div>
+          {flipSurface}
         </div>
       </div>
     </div>
