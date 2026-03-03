@@ -27,8 +27,8 @@ function getButtonClasses(variant: ButtonVariant, size: ButtonSize) {
     "inline-flex items-center justify-center gap-2 rounded-xl font-semibold no-underline transition-colors";
 
   const sizes: Record<ButtonSize, string> = {
-    sm: "px-3 py-2 text-sm",
-    md: "px-4 py-2.5 text-sm",
+    sm: "px-3 py-2 text-sm 3xl:px-4 3xl:py-2.5 3xl:text-base",
+    md: "px-4 py-2.5 text-sm 3xl:px-5 3xl:py-3 3xl:text-base",
   };
 
   const variants: Record<ButtonVariant, string> = {

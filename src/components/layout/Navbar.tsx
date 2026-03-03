@@ -115,17 +115,17 @@ export function Navbar() {
             >
               {profile.name}
             </a>
-            <span className="hidden text-sm text-zinc-600 dark:text-zinc-400 sm:inline">
+            <span className="hidden text-sm text-zinc-600 dark:text-zinc-400 sm:inline 3xl:text-base">
               {profile.title}
             </span>
           </div>
 
-          <nav aria-label="Primary" className="hidden items-center gap-6 md:flex">
+          <nav aria-label="Primary" className="hidden items-center gap-6 md:flex 3xl:gap-8">
             {site.nav.map((item) => (
               <a
                 key={item.id}
                 href={`#${item.id}`}
-                className="text-sm font-medium text-zinc-700 no-underline hover:text-zinc-900 hover:underline dark:text-zinc-300 dark:hover:text-zinc-50"
+                className="text-sm font-medium text-zinc-700 no-underline hover:text-zinc-900 hover:underline dark:text-zinc-300 dark:hover:text-zinc-50 3xl:text-base"
               >
                 {item.label}
               </a>

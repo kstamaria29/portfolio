@@ -150,7 +150,7 @@ export function ImageLightbox({
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
-        className="relative mx-auto flex h-[calc(100vh-2rem)] max-w-6xl cursor-default flex-col"
+        className="relative mx-auto flex h-[calc(100vh-2rem)] max-w-6xl cursor-default flex-col 3xl:max-w-7xl"
         onMouseDown={(e) => e.stopPropagation()}
       >
         {title ? (

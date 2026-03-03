@@ -15,21 +15,21 @@ export function Timeline() {
   return (
     <motion.section
       id={sectionIds.timeline}
-      className="scroll-mt-24 border-t border-zinc-200/60 py-20 dark:border-white/10"
+      className="scroll-mt-24 border-t border-zinc-200/60 py-20 dark:border-white/10 3xl:py-24"
       {...sectionMotionProps}
     >
       <Container>
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+        <div className="mx-auto max-w-3xl text-center 3xl:max-w-4xl">
+          <h2 className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 3xl:text-6xl">
             {timelineSection.heading}
           </h2>
-          <div className="mx-auto mt-6 h-px w-44 bg-zinc-200/70 dark:bg-white/10" />
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+          <div className="mx-auto mt-6 h-px w-44 bg-zinc-200/70 dark:bg-white/10 3xl:w-56" />
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 3xl:max-w-3xl 3xl:text-base">
             {timelineSection.description}
           </p>
         </div>
 
-        <div className="relative mt-12">
+        <div className="relative mt-12 3xl:mt-16">
           <div
             className={cn(
               "pointer-events-none absolute inset-y-0 left-4 w-px bg-zinc-200/70",
@@ -38,7 +38,7 @@ export function Timeline() {
             aria-hidden="true"
           />
 
-          <ol className="space-y-10">
+          <ol className="space-y-10 3xl:space-y-12">
             {timeline.map((item, index) => {
               const side = index % 2 === 0 ? "right" : "left";
               const isLeft = side === "left";
@@ -47,7 +47,7 @@ export function Timeline() {
               return (
                 <li
                   key={item.id}
-                  className="relative md:grid md:grid-cols-2 md:items-start md:gap-12"
+                  className="relative md:grid md:grid-cols-2 md:items-start md:gap-12 3xl:gap-20"
                 >
                   <span
                     className={cn(
@@ -67,20 +67,20 @@ export function Timeline() {
                       "ml-10",
                       "md:ml-0",
                       isLeft
-                        ? "md:col-start-1 md:justify-self-end md:pr-12"
-                        : "md:col-start-2 md:pl-12",
+                        ? "md:col-start-1 md:justify-self-end md:pr-12 3xl:pr-20"
+                        : "md:col-start-2 md:pl-12 3xl:pl-20",
                     )}
                   >
-                    <Card className="md:max-w-xl">
+                    <Card className="md:max-w-xl 3xl:max-w-2xl">
                       <div className="space-y-1">
-                        <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+                        <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50 3xl:text-xl">
                           {item.title}
                         </h3>
-                        <p className="text-xs text-zinc-600 dark:text-zinc-400">
+                        <p className="text-xs text-zinc-600 dark:text-zinc-400 3xl:text-sm">
                           {item.caption}
                         </p>
                       </div>
-                      <p className="mt-4 text-sm leading-relaxed text-zinc-700 dark:text-zinc-200">
+                      <p className="mt-4 text-sm leading-relaxed text-zinc-700 dark:text-zinc-200 3xl:text-base">
                         {item.description}
                       </p>
                     </Card>
@@ -94,4 +94,3 @@ export function Timeline() {
     </motion.section>
   );
 }
-

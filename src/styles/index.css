@@ -4,6 +4,7 @@
 
 @theme {
   --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --breakpoint-3xl: 120rem;
 }
 
 @layer base {

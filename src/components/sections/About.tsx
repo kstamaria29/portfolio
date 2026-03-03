@@ -39,19 +39,19 @@ export function About() {
   return (
     <motion.section
       id={sectionIds.about}
-      className="scroll-mt-24 border-t border-zinc-200/60 py-20 dark:border-white/10"
+      className="scroll-mt-24 border-t border-zinc-200/60 py-20 dark:border-white/10 3xl:py-24"
       {...motionProps}
     >
       <Container>
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+        <div className="mx-auto max-w-3xl text-center 3xl:max-w-4xl">
+          <h2 className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 3xl:text-6xl">
             {profile.aboutSection.heading}
           </h2>
-          <div className="mx-auto mt-6 h-px w-44 bg-zinc-200/70 dark:bg-white/10" />
+          <div className="mx-auto mt-6 h-px w-44 bg-zinc-200/70 dark:bg-white/10 3xl:w-56" />
         </div>
 
         <div
-          className="mt-12 grid gap-10 lg:grid-cols-2 lg:items-start"
+          className="mt-12 grid gap-10 lg:grid-cols-2 lg:items-start 3xl:mt-16 3xl:gap-14"
           style={
             profileCardHeight
               ? ({ "--about-profile-card-height": `${profileCardHeight}px` } as CSSProperties)

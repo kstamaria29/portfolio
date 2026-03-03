@@ -38,8 +38,10 @@ function SkillBar({
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between gap-4">
-        <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">{label}</p>
-        <p className="text-sm font-semibold tabular-nums text-zinc-700 dark:text-zinc-200">
+        <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 3xl:text-base">
+          {label}
+        </p>
+        <p className="text-sm font-semibold tabular-nums text-zinc-700 dark:text-zinc-200 3xl:text-base">
           {percent}%
         </p>
       </div>
@@ -50,7 +52,7 @@ function SkillBar({
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={percent}
-        className={cn("h-2 w-full rounded-full bg-zinc-200", "dark:bg-white/15")}
+        className={cn("h-2 w-full rounded-full bg-zinc-200 3xl:h-2.5", "dark:bg-white/15")}
       >
         {shouldReduceMotion ? (
           <div className={fillClassName} style={{ transform: `scaleX(${scaleX})` }} />
@@ -75,28 +77,28 @@ export function Skills() {
   return (
     <motion.section
       id={sectionIds.skills}
-      className="scroll-mt-24 border-t border-zinc-200/60 py-20 dark:border-white/10"
+      className="scroll-mt-24 border-t border-zinc-200/60 py-20 dark:border-white/10 3xl:py-24"
       {...motionProps}
     >
       <Container>
         <div className="flex flex-col gap-4">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+          <div className="mx-auto max-w-3xl text-center 3xl:max-w-4xl">
+            <h2 className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 3xl:text-6xl">
               {skillsSection.heading}
             </h2>
-            <div className="mx-auto mt-6 h-px w-44 bg-zinc-200/70 dark:bg-white/10" />
-            <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+            <div className="mx-auto mt-6 h-px w-44 bg-zinc-200/70 dark:bg-white/10 3xl:w-56" />
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 3xl:max-w-3xl 3xl:text-base">
               {skillsSection.description}
             </p>
           </div>
 
           <div
             className={cn(
-              "mt-6 rounded-3xl border border-zinc-200/70 bg-zinc-50 p-6 shadow-sm",
+              "mt-6 rounded-3xl border border-zinc-200/70 bg-zinc-50 p-6 shadow-sm 3xl:mt-10 3xl:p-8",
               "dark:border-white/10 dark:bg-zinc-950/40",
             )}
           >
-            <div className="grid gap-10 lg:grid-cols-3">
+            <div className="grid gap-10 lg:grid-cols-3 3xl:gap-12">
               {skillsSection.categories.map((category) => {
                 const Icon = getCategoryIcon(category.id);
                 return (
@@ -107,13 +109,14 @@ export function Skills() {
                           className="h-4 w-4 text-zinc-600 dark:text-zinc-300"
                           aria-hidden="true"
                         />
-                        <h3 className="text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+                        <h3 className="text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 3xl:text-base">
                           {category.title}
                         </h3>
                       </div>
                       <span
                         className={cn(
                           "h-1.5 w-10 rounded-full bg-linear-to-r",
+                          "3xl:h-2 3xl:w-12",
                           category.barColorClassName,
                         )}
                         aria-hidden="true"

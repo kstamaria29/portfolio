@@ -107,12 +107,12 @@ export function Modal({ open, title, onClose, children }: ModalProps) {
         aria-modal="true"
         aria-labelledby={titleId}
         className={cn(
-          "h-[min(90vh,calc(100vh-2rem))] w-full max-w-3xl cursor-default overflow-hidden rounded-2xl border border-zinc-200/70 bg-white shadow-xl",
+          "h-[min(90vh,calc(100vh-2rem))] w-full max-w-3xl cursor-default overflow-hidden rounded-2xl border border-zinc-200/70 bg-white shadow-xl 3xl:max-w-5xl 3xl:rounded-3xl",
           "dark:border-white/10 dark:bg-zinc-950",
         )}
         onMouseDown={(e) => e.stopPropagation()}
       >
-        <div className="h-full overflow-y-auto px-5 py-5">
+        <div className="h-full overflow-y-auto px-5 py-5 3xl:px-8 3xl:py-8">
           <div className="flex items-start justify-between gap-4">
             <h2 id={titleId} className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
               {title}
