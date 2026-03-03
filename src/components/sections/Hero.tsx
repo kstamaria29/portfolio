@@ -1,19 +1,12 @@
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 
 import { profile } from "../../content/profile";
 import { sectionIds } from "../../content/site";
 import { getSectionMotionProps } from "../../lib/motion";
+import { getSocialIcon } from "../../lib/social";
 import { Container } from "../layout/Container";
 import { Button } from "../ui/Button";
-
-function getSocialIcon(label: string, href: string) {
-  const normalized = label.toLowerCase();
-  if (normalized.includes("github")) return Github;
-  if (normalized.includes("linkedin")) return Linkedin;
-  if (href.startsWith("mailto:") || normalized.includes("email")) return Mail;
-  return null;
-}
 
 export function Hero() {
   const shouldReduceMotion = useReducedMotion();

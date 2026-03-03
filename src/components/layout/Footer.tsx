@@ -1,15 +1,7 @@
 import { profile } from "../../content/profile";
 import { site } from "../../content/site";
+import { getSocialIcon } from "../../lib/social";
 import { Container } from "./Container";
-import { Github, Linkedin, Mail } from "lucide-react";
-
-function getSocialIcon(label: string, href: string) {
-  const normalized = label.toLowerCase();
-  if (normalized.includes("github")) return Github;
-  if (normalized.includes("linkedin")) return Linkedin;
-  if (href.startsWith("mailto:") || normalized.includes("email")) return Mail;
-  return null;
-}
 
 export function Footer() {
   return (

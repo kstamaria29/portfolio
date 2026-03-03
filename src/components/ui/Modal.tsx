@@ -4,9 +4,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { X } from "lucide-react";
 
 import { cn } from "../../lib/cn";
-
-const FOCUSABLE_SELECTOR =
-  'a[href],button:not([disabled]),textarea,input,select,[tabindex]:not([tabindex="-1"])';
+import { FOCUSABLE_SELECTOR } from "../../lib/focusable";
 
 type ModalProps = {
   open: boolean;

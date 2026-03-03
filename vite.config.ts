@@ -3,6 +3,10 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, loadEnv } from "vite";
 
 import { createPortfolioAssistantReply } from "./src/server/portfolioChat";
+import {
+  PORTFOLIO_CHAT_DEFAULT_MODEL,
+  sanitizePortfolioAssistantMessages,
+} from "./src/server/chatSanitize";
 
 type DevRequest = {
   method?: string;
@@ -77,22 +81,9 @@ function portfolioChatApi(env: ChatServerEnv) {
           const maybeMessages =
             body && typeof body === "object" ? (body as { messages?: unknown }).messages : undefined;
 
-          const messages = Array.isArray(maybeMessages)
-            ? maybeMessages
-                .slice(-14)
-                .flatMap((message): { role: "user" | "assistant"; content: string }[] => {
-                  if (!message || typeof message !== "object") return [];
-                  const role = (message as { role?: unknown }).role;
-                  const content = (message as { content?: unknown }).content;
-                  if (role !== "user" && role !== "assistant") return [];
-                  if (typeof content !== "string") return [];
-                  const trimmed = content.trim();
-                  if (!trimmed) return [];
-                  return [{ role, content: trimmed.slice(0, 900) }];
-                })
-            : [];
+          const messages = sanitizePortfolioAssistantMessages(maybeMessages);
 
-          const model = env.openAiModel ?? "gpt-4.1-mini";
+          const model = env.openAiModel ?? PORTFOLIO_CHAT_DEFAULT_MODEL;
           const reply = await createPortfolioAssistantReply({ apiKey, model, messages });
 
           res.statusCode = 200;

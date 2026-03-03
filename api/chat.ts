@@ -1,9 +1,8 @@
 import { createPortfolioAssistantReply } from "../src/server/portfolioChat";
-import type { PortfolioAssistantMessage } from "../src/content/ai";
-
-const DEFAULT_MODEL = "gpt-4.1-mini";
-const MAX_MESSAGES = 14;
-const MAX_MESSAGE_CHARS = 900;
+import {
+  PORTFOLIO_CHAT_DEFAULT_MODEL,
+  sanitizePortfolioAssistantMessages,
+} from "../src/server/chatSanitize";
 
 type ApiRequest = {
   method?: string;
@@ -19,26 +18,6 @@ type ApiResponse = {
 function getEnv(key: string) {
   return (globalThis as unknown as { process?: { env?: Record<string, string | undefined> } })
     .process?.env?.[key];
-}
-
-function sanitizeMessages(value: unknown): PortfolioAssistantMessage[] {
-  if (!Array.isArray(value)) return [];
-
-  const sliced = value.slice(-MAX_MESSAGES);
-  const cleaned: PortfolioAssistantMessage[] = [];
-
-  for (const item of sliced) {
-    if (!item || typeof item !== "object") continue;
-    const role = (item as { role?: unknown }).role;
-    const content = (item as { content?: unknown }).content;
-    if (role !== "user" && role !== "assistant") continue;
-    if (typeof content !== "string") continue;
-    const trimmed = content.trim();
-    if (!trimmed) continue;
-    cleaned.push({ role, content: trimmed.slice(0, MAX_MESSAGE_CHARS) });
-  }
-
-  return cleaned;
 }
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
@@ -59,11 +38,11 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     return;
   }
 
-  const model = getEnv("OPENAI_MODEL") ?? DEFAULT_MODEL;
+  const model = getEnv("OPENAI_MODEL") ?? PORTFOLIO_CHAT_DEFAULT_MODEL;
 
   try {
     const body = typeof req.body === "string" ? (JSON.parse(req.body) as unknown) : req.body;
-    const messages = sanitizeMessages(
+    const messages = sanitizePortfolioAssistantMessages(
       body && typeof body === "object" ? (body as { messages?: unknown }).messages : undefined,
     );
 

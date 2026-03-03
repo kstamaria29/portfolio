@@ -10,20 +10,6 @@
 @layer base {
   html {
     color-scheme: light dark;
-}
-
-@layer utilities {
-  .no-scrollbar {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-  html {
     scroll-behavior: smooth;
   }
 
@@ -55,5 +41,16 @@
 
   :focus-visible {
     @apply outline-none ring-2 ring-emerald-400 ring-offset-2 ring-offset-white dark:ring-emerald-300 dark:ring-offset-zinc-950;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
