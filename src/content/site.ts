@@ -3,7 +3,8 @@ export const sectionIds = {
   about: "about",
   skills: "skills",
   projects: "projects",
-  reviews: "reviews",
+  timeline: "timeline",
+  testimonials: "testimonials",
   contact: "contact",
 } as const;
 
@@ -13,7 +14,8 @@ export const site = {
     { id: sectionIds.about, label: "About" },
     { id: sectionIds.skills, label: "Skills" },
     { id: sectionIds.projects, label: "Projects" },
-    { id: sectionIds.reviews, label: "Reviews" },
+    { id: sectionIds.timeline, label: "Timeline" },
+    { id: sectionIds.testimonials, label: "Testimonials" },
     { id: sectionIds.contact, label: "Contact" },
   ],
   footer: {

@@ -31,28 +31,28 @@ export function Contact() {
   return (
     <motion.section
       id={sectionIds.contact}
-      className="scroll-mt-24 border-t border-zinc-200/60 py-20 dark:border-white/10"
+      className="scroll-mt-24 border-t border-zinc-200/60 py-20 dark:border-white/10 3xl:py-24"
       {...motionProps}
     >
       <Container>
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+        <div className="mx-auto max-w-3xl text-center 3xl:max-w-4xl">
+          <h2 className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 3xl:text-6xl">
             {contact.heading}
           </h2>
-          <div className="mx-auto mt-6 h-px w-44 bg-zinc-200/70 dark:bg-white/10" />
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+          <div className="mx-auto mt-6 h-px w-44 bg-zinc-200/70 dark:bg-white/10 3xl:w-56" />
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 3xl:max-w-3xl 3xl:text-base">
             {contact.description}
           </p>
         </div>
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-2">
+        <div className="mt-12 grid gap-6 lg:grid-cols-2 3xl:mt-16 3xl:gap-10">
           <div
             className={cn(
-              "rounded-3xl border border-zinc-200/70 bg-white p-7 shadow-sm",
+              "rounded-3xl border border-zinc-200/70 bg-white p-7 shadow-sm 3xl:p-10",
               "dark:border-white/10 dark:bg-white/5",
             )}
           >
-            <h3 className="text-xl font-semibold text-zinc-900 dark:text-zinc-50">
+            <h3 className="text-xl font-semibold text-zinc-900 dark:text-zinc-50 3xl:text-2xl">
               {contact.infoCard.heading}
             </h3>
 
@@ -82,8 +82,10 @@ export function Contact() {
                       <Icon className="h-5 w-5" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm text-zinc-600 dark:text-zinc-400">{item.label}</p>
-                      <p className="mt-0.5 truncate text-sm font-semibold text-zinc-900 group-hover:underline dark:text-zinc-50">
+                      <p className="text-sm text-zinc-600 dark:text-zinc-400 3xl:text-base">
+                        {item.label}
+                      </p>
+                      <p className="mt-0.5 truncate text-sm font-semibold text-zinc-900 group-hover:underline dark:text-zinc-50 3xl:text-base">
                         {item.value}
                       </p>
                     </div>
@@ -106,7 +108,7 @@ export function Contact() {
                   )}
                   aria-hidden="true"
                 />
-                <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+                <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 3xl:text-base">
                   {contact.status.message}
                 </p>
               </div>
@@ -115,11 +117,11 @@ export function Contact() {
 
           <div
             className={cn(
-              "rounded-3xl border border-zinc-200/70 bg-white p-7 shadow-sm",
+              "rounded-3xl border border-zinc-200/70 bg-white p-7 shadow-sm 3xl:p-10",
               "dark:border-white/10 dark:bg-white/5",
             )}
           >
-            <h3 className="text-xl font-semibold text-zinc-900 dark:text-zinc-50">
+            <h3 className="text-xl font-semibold text-zinc-900 dark:text-zinc-50 3xl:text-2xl">
               {contact.formCard.heading}
             </h3>
 
@@ -166,6 +168,7 @@ export function Contact() {
                       "h-12 rounded-xl border border-zinc-200/70 bg-white px-4 text-sm text-zinc-900 shadow-sm",
                       "placeholder:text-sky-700/60 dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-50 dark:placeholder:text-sky-300/50",
                       "focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-0 dark:focus-visible:ring-emerald-300",
+                      "3xl:text-base",
                     )}
                     placeholder="Your Name"
                     autoComplete="name"
@@ -183,6 +186,7 @@ export function Contact() {
                       "h-12 rounded-xl border border-zinc-200/70 bg-white px-4 text-sm text-zinc-900 shadow-sm",
                       "placeholder:text-sky-700/60 dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-50 dark:placeholder:text-sky-300/50",
                       "focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-0 dark:focus-visible:ring-emerald-300",
+                      "3xl:text-base",
                     )}
                     placeholder="Your Email"
                     autoComplete="email"
@@ -198,6 +202,7 @@ export function Contact() {
                       "h-12 rounded-xl border border-zinc-200/70 bg-white px-4 text-sm text-zinc-900 shadow-sm",
                       "placeholder:text-sky-700/60 dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-50 dark:placeholder:text-sky-300/50",
                       "focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-0 dark:focus-visible:ring-emerald-300",
+                      "3xl:text-base",
                     )}
                     placeholder="Subject"
                     autoComplete="off"
@@ -215,6 +220,7 @@ export function Contact() {
                       "resize-none rounded-xl border border-zinc-200/70 bg-white px-4 py-3 text-sm text-zinc-900 shadow-sm",
                       "placeholder:text-sky-700/60 dark:border-white/10 dark:bg-zinc-950/40 dark:text-zinc-50 dark:placeholder:text-sky-300/50",
                       "focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-0 dark:focus-visible:ring-emerald-300",
+                      "3xl:text-base",
                     )}
                     placeholder="Your Message"
                   />
@@ -230,12 +236,12 @@ export function Contact() {
                   </Button>
 
                   {status === "success" ? (
-                    <p className="text-sm font-medium text-emerald-700 dark:text-emerald-300">
+                    <p className="text-sm font-medium text-emerald-700 dark:text-emerald-300 3xl:text-base">
                       Message sent. Thanks!
                     </p>
                   ) : null}
                   {status === "error" ? (
-                    <p className="text-sm font-medium text-rose-700 dark:text-rose-300">
+                    <p className="text-sm font-medium text-rose-700 dark:text-rose-300 3xl:text-base">
                       {errorMessage ?? "Something went wrong."}
                     </p>
                   ) : null}

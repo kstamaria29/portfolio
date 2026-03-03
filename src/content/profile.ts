@@ -8,19 +8,18 @@ export const profile = {
   title: "Full Stack Developer",
   tagline: "Hi! I am",
   shortbio:
-    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis dolore aspernatur architecto omnis animi cum dignissimos repellat. Pariatur, dolorem dolor. Quia pariatur consequuntur tempora repellendus voluptatem est nulla earum!",
+    "AI-powered full stack developer who loves turning ideas into user-focused products. Skilled in Next.js, React, MongoDB, MySQL, and Tailwind CSS, with experience building AI features using Azure and Gemini. Exploring Ai Tools such as OpenAI Codex to sharpen my workflow as AI evolves fast.",
   heroImage: {
     src: "/images/profile.png",
     alt: "Portrait photo",
   },
   aboutSection: {
     heading: "About",
-    asideHeading: "What you can expect",
   },
   bio: [
     "From the moment I printed “Hello World” in the console of my first application, I knew I was hooked. That single line of code sparked my passion for software development - a field where creativity meets logic and every problem is an opportunity to learn.",
-    "Before entering tech, I spent 15 years at New World Albany, working my way up from an assistant to a supervisor and eventually to a 2IC. Those years built a strong foundation in customer service, teamwork, and leadership, which continue to guide how I approach collaboration and communication in the tech world.",
-    "I’m currently studying at Mission Ready HQ, where I’m close to completing my AI-Powered Full Stack Developer Diploma. Through my projects and assignments, I’ve gained hands-on experience creating AI-powered applications using Azure and Gemini, as well as building full-stack solutions with HTML, CSS, JavaScript, React, Node.js, MongoDB, MySQL, and Tailwind CSS.",
+    "I've recently acquired an AI-Powered Full Stack Developer Diploma from Mission Ready HQ, and as part of the 32-week program I finished a 12-week internship with Seen Ventures, where I helped start a product from scratch and take it from idea toward an MVP. The project focused on building a platform for creatives and developers to showcase and submit AI experiments, while enabling employers and recruiters to explore an applicant’s experiments and project work.",
+    "I build full-stack applications with HTML, CSS, JavaScript, React, Next.js, Node.js, MongoDB, MySQL, Supabase and Tailwind CSS, and I’ve delivered AI-powered features using tools like Azure and Gemini. I’m also actively exploring modern AI developer tools, most recently OpenAI Codex, to improve my workflow and stay current with how development is evolving as AI accelerates.",
     "I’m passionate about continuous learning and using technology to build meaningful, user-focused solutions. My goal is to keep growing as a developer and contribute to innovative projects that make a real impact.",
   ],
   highlights: ["Accessibility-first UI", "Clean, maintainable components"],

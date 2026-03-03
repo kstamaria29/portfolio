@@ -84,26 +84,26 @@ export function Projects() {
   return (
     <motion.section
       id={sectionIds.projects}
-      className="scroll-mt-24 border-t border-zinc-200/60 py-20 dark:border-white/10"
+      className="scroll-mt-24 border-t border-zinc-200/60 py-20 dark:border-white/10 3xl:py-24"
       {...sectionMotionProps}
     >
       <Container>
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+        <div className="mx-auto max-w-3xl text-center 3xl:max-w-4xl">
+          <h2 className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 3xl:text-6xl">
             {projectsSection.heading}
           </h2>
-          <div className="mx-auto mt-6 h-px w-44 bg-zinc-200/70 dark:bg-white/10" />
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+          <div className="mx-auto mt-6 h-px w-44 bg-zinc-200/70 dark:bg-white/10 3xl:w-56" />
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 3xl:max-w-3xl 3xl:text-base">
             {projectsSection.description}
           </p>
         </div>
 
-        <div className="mt-10 flex justify-center">
+        <div className="mt-10 flex justify-center 3xl:mt-12">
           <div
             role="tablist"
             aria-label="Project categories"
             className={cn(
-              "inline-flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-zinc-200/70 bg-white p-2 shadow-sm",
+              "inline-flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-zinc-200/70 bg-white p-2 shadow-sm 3xl:gap-3 3xl:rounded-3xl 3xl:p-3",
               "dark:border-white/10 dark:bg-white/5",
             )}
             onKeyDown={(e) => {
@@ -152,7 +152,7 @@ export function Projects() {
                   tabIndex={selected ? 0 : -1}
                   onClick={() => setActiveCategory(category.id)}
                   className={cn(
-                    "inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition-colors",
+                    "inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition-colors 3xl:px-5 3xl:py-2.5 3xl:text-base",
                     selected
                       ? "bg-emerald-500 text-zinc-950 dark:bg-emerald-400"
                       : "text-zinc-700 hover:bg-zinc-100/70 dark:text-zinc-200 dark:hover:bg-white/10",
@@ -161,7 +161,7 @@ export function Projects() {
                   <span>{category.label}</span>
                   <span
                     className={cn(
-                      "rounded-full px-2 py-0.5 text-xs tabular-nums",
+                      "rounded-full px-2 py-0.5 text-xs tabular-nums 3xl:text-sm",
                       selected
                         ? "bg-zinc-950/10 text-zinc-950 dark:bg-zinc-950/15"
                         : "bg-zinc-200/70 text-zinc-700 dark:bg-white/10 dark:text-zinc-200",
@@ -179,7 +179,7 @@ export function Projects() {
           role="tabpanel"
           id={`projects-panel-${activeCategory}`}
           aria-labelledby={`projects-tab-${activeCategory}`}
-          className="mt-12"
+          className="mt-12 3xl:mt-16"
         >
           {visibleProjects.length === 0 ? (
             <p className="text-center text-sm text-zinc-600 dark:text-zinc-300">
@@ -187,14 +187,14 @@ export function Projects() {
             </p>
           ) : null}
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4 3xl:gap-6">
             {visibleProjects.map((project) => (
               <motion.button
                 key={project.id}
                 type="button"
                 className={cn(
-                  "group rounded-2xl border border-zinc-200/70 bg-white p-6 text-left shadow-sm",
-                  "hover:border-zinc-200 dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20",
+                  "group flex h-[32rem] flex-col overflow-hidden rounded-2xl border border-zinc-200/70 bg-white text-left shadow-sm transition sm:h-[34rem] lg:h-[34rem] 3xl:h-[42rem] 3xl:rounded-3xl",
+                  "hover:border-emerald-200 hover:shadow-md dark:border-white/10 dark:bg-white/5 dark:hover:border-emerald-300/30",
                 )}
                 onClick={(e) => {
                   triggerRef.current = e.currentTarget;
@@ -202,39 +202,37 @@ export function Projects() {
                 }}
                 {...hoverTap}
               >
-                {project.images[0] ? (
-                  <div className="-mx-6 -mt-6 mb-5 overflow-hidden rounded-t-2xl bg-zinc-50 dark:bg-white/5">
+                <div className="h-1/3 w-full shrink-0 border-b border-zinc-200/70 bg-zinc-50 dark:border-white/10 dark:bg-white/5">
+                  {project.images[0] ? (
                     <img
                       src={project.images[0].src}
                       alt={project.images[0].alt}
-                      className="aspect-video w-full object-cover"
+                      className="block h-full w-full object-cover"
                       loading="lazy"
                       decoding="async"
                     />
-                    <div
-                      className="h-px bg-zinc-200/70 dark:bg-white/10"
-                      aria-hidden="true"
-                    />
+                  ) : null}
+                </div>
+                <div className="flex flex-1 flex-col p-6 3xl:p-7">
+                  <div className="flex items-start justify-between gap-4">
+                    <h3 className="min-h-12 line-clamp-2 text-base font-semibold text-zinc-900 transition-colors group-hover:text-emerald-700 dark:text-zinc-50 dark:group-hover:text-emerald-300 3xl:min-h-14 3xl:text-lg">
+                      {project.title}
+                    </h3>
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400 3xl:text-sm">
+                      {project.date ?? ""}
+                    </span>
                   </div>
-                ) : null}
-                <div className="flex items-start justify-between gap-4">
-                  <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
-                    {project.title}
-                  </h3>
-                  <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                    {project.date ?? ""}
-                  </span>
-                </div>
-                <p className="mt-3 sm:h-33 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
-                  {project.shortDescription}
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {project.techStack.slice(0, 6).map((tech) => (
-                    <Badge key={tech}>{tech}</Badge>
-                  ))}
-                </div>
-                <div className="mt-5 text-sm font-semibold text-emerald-700 group-hover:underline dark:text-emerald-300">
-                  View details
+                  <p className="mt-3 min-h-24 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 3xl:min-h-28 3xl:text-base">
+                    {project.shortDescription}
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2 3xl:mt-6">
+                    {project.techStack.slice(0, 6).map((tech) => (
+                      <Badge key={tech}>{tech}</Badge>
+                    ))}
+                  </div>
+                  <div className="mt-auto pt-5 text-sm font-semibold text-emerald-700 group-hover:underline dark:text-emerald-300 3xl:text-base">
+                    View details
+                  </div>
                 </div>
               </motion.button>
             ))}
@@ -252,12 +250,12 @@ export function Projects() {
         }}
       >
         {activeProject ? (
-          <div className="space-y-8">
+          <div className="space-y-8 3xl:space-y-10">
             <div>
               <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
                 Overview
               </h3>
-              <div className="mt-2 space-y-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+              <div className="mt-2 space-y-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 3xl:space-y-4 3xl:text-base">
                 {(Array.isArray(activeProject.fullDescription)
                   ? activeProject.fullDescription
                   : [activeProject.fullDescription]
