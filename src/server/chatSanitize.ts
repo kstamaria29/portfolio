@@ -1,4 +1,4 @@
-import type { PortfolioAssistantMessage } from "../content/ai";
+import type { PortfolioAssistantMessage } from "./chatTypes.js";
 
 export const PORTFOLIO_CHAT_DEFAULT_MODEL = "gpt-4.1-mini";
 const MAX_MESSAGES = 14;
@@ -23,4 +23,3 @@ export function sanitizePortfolioAssistantMessages(value: unknown): PortfolioAss
 
   return cleaned;
 }
-

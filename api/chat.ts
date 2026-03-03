@@ -1,8 +1,8 @@
-import { createPortfolioAssistantReply } from "../src/server/portfolioChat";
+import { createPortfolioAssistantReply } from "../src/server/portfolioChat.js";
 import {
   PORTFOLIO_CHAT_DEFAULT_MODEL,
   sanitizePortfolioAssistantMessages,
-} from "../src/server/chatSanitize";
+} from "../src/server/chatSanitize.js";
 
 type ApiRequest = {
   method?: string;

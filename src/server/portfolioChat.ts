@@ -1,5 +1,5 @@
-import { getPortfolioAssistantContext, type PortfolioAssistantMessage } from "../content/ai";
-import { profile } from "../content/profile";
+import { getPortfolioAssistantContext } from "./assistantContext.js";
+import type { PortfolioAssistantMessage } from "./chatTypes.js";
 
 type OpenAIResponseMessageContent =
   | { type: "output_text"; text?: string }
@@ -22,7 +22,7 @@ type OpenAIResponsesApiResponse = {
 function buildDeveloperPrompt() {
   const context = getPortfolioAssistantContext();
   return [
-    `You are an AI chatbot embedded on ${profile.name}'s portfolio website.`,
+    `You are an AI chatbot embedded on ${context.profile.name}'s portfolio website.`,
     "",
     "Your job: answer questions strictly about Kenneth (background, projects, skills, testimonials, and contact info).",
     "",
