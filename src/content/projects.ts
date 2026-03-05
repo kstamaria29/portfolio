@@ -62,7 +62,7 @@ export const projects: Project[] = [
       "Structured sections to mirror UX flow.",
       "Crafted themed gradients and layered visuals.",
     ],
-    date: "2026",
+    date: "2025",
   },
   {
     id: "project-prod-2",
@@ -89,7 +89,7 @@ export const projects: Project[] = [
       "Drag‑and‑drop showcase ordering improves presentation.",
       "Preview‑and‑publish step mirrors final output.",
     ],
-    date: "2026",
+    date: "2025",
   },
   {
     id: "project-prod-3",
@@ -217,7 +217,7 @@ export const projects: Project[] = [
       "Clear calls-to-action driving lesson inquiries.",
       "Mobile responsive.",
     ],
-    date: "2026",
+    date: "2025",
   },
   {
     id: "project-prod-5",
@@ -241,7 +241,7 @@ export const projects: Project[] = [
       "Blog management tools for content publishing.",
       "Scalable Next.js dashboard with modular pages.",
     ],
-    date: "2026",
+    date: "2025",
   },
 
   {
