@@ -24,4 +24,13 @@ export const testimonials: Testimonial[] = [
       "Beyond his technical strengths, Kenneth brought a consistently positive and focused attitude that helped maintain team morale and momentum. His contributions were truly pivotal, and I have no doubt he\u2019ll bring the same value to any team or organisation he's part of.",
     ],
   },
+  {
+    id: "testimonial-2",
+    name: "Midu Chandra",
+    title: "CEO",
+    company: "Seen Ventures",
+    quote: [
+      "I worked with Kenneth on implementing an agentic framework and building a responsive front-end. His full-stack skills, problem-solving, and collaboration were top-notch. I’d highly recommend him!",
+    ],
+  },
 ];
